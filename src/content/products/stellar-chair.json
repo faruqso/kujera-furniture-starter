@@ -1,0 +1,28 @@
+{
+  "slug": "stellar-chair",
+  "sku": "CHR-002",
+  "collection": "chair",
+  "title": "Stellar Chair",
+  "description": "A refined navy accent chair with solid oak legs.",
+  "price": 459,
+  "compareAtPrice": 459,
+  "images": [
+    "/assets/products/chairs/stellar-chair.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "chair"
+  ],
+  "inStock": true,
+  "featured": true,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

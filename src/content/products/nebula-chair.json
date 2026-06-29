@@ -1,0 +1,27 @@
+{
+  "slug": "nebula-chair",
+  "sku": "CHR-003",
+  "collection": "chair",
+  "title": "Nebula Chair",
+  "description": "Soft grey lounge chair with a slim metal frame.",
+  "price": 389,
+  "images": [
+    "/assets/products/chairs/nebula-chair.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "chair"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

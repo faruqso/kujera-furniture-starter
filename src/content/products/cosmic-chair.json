@@ -1,0 +1,27 @@
+{
+  "slug": "cosmic-chair",
+  "sku": "CHR-004",
+  "collection": "chair",
+  "title": "Cosmic Chair",
+  "description": "Bold checker-pattern armchair with plush cushioning.",
+  "price": 459,
+  "images": [
+    "/assets/products/chairs/cosmic-chair.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "chair"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

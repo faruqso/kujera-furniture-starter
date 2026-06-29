@@ -1,0 +1,385 @@
+---
+import Button from './ui/Button.astro';
+import IconButton from './ui/IconButton.astro';
+import Badge from './ui/Badge.astro';
+import Price from './ui/Price.astro';
+import Eyebrow from './ui/Eyebrow.astro';
+import TextLink from './ui/TextLink.astro';
+import ArrowLinkIcon from './ui/ArrowLinkIcon.astro';
+import PillTabs from './ui/PillTabs.astro';
+import StarRating from './ui/StarRating.astro';
+import SearchBar from './ui/SearchBar.astro';
+import CustomSelect from './ui/CustomSelect.astro';
+import HugeIcon from './ui/HugeIcon.astro';
+import ProductCard from './commerce/ProductCard.astro';
+import { ui } from '../i18n/ui';
+import { getAllProducts, getAllPages, getAllCollections } from '../lib/products';
+import { getSiteSettings } from '../lib/site-settings';
+import { localizeHref } from '../lib/i18n';
+import { socialIcons } from '../lib/hugeicons';
+
+const settings = await getSiteSettings();
+const products = await getAllProducts();
+const pages = await getAllPages();
+const collections = await getAllCollections();
+const sampleProduct = products[0];
+
+const colorTokens = [
+  '--color-brand', '--color-brand-hover', '--color-brand-muted', '--color-accent',
+  '--color-text', '--color-text-muted', '--color-text-heading',
+  '--color-surface', '--color-section-muted', '--color-tab-track', '--color-border',
+  '--color-hero-text', '--color-hero-search-bg',
+];
+
+const typeTokens = [
+  '--text-sm', '--text-base', '--text-lg', '--text-xl', '--text-2xl',
+  '--text-3xl', '--text-hero', '--text-hero-sub',
+];
+
+const spaceTokens = ['--space-2', '--space-4', '--space-6', '--space-8', '--space-12', '--space-16'];
+
+const pillTabItems = [
+  { id: 'chair', label: 'Chair', href: localizeHref('/shop/chair') },
+  { id: 'beds', label: 'Beds', href: localizeHref('/shop/beds') },
+  { id: 'soft-furnishings', label: 'Furnishings', href: localizeHref('/shop/soft-furnishings') },
+  { id: 'accents', label: 'Accents', href: localizeHref('/shop/accents') },
+];
+
+const marketingPages = pages
+  .map((page) => ({
+    title: page.data.title,
+    href: page.data.slug === 'home' ? '/' : localizeHref(`/${page.data.slug}`),
+  }))
+  .sort((a, b) => (a.href === '/' ? -1 : b.href === '/' ? 1 : a.title.localeCompare(b.title)));
+
+const shopRoutes = [
+  { title: 'Shop all', href: localizeHref('/shop') },
+  ...collections.flatMap((collection) => {
+    const collectionProducts = products.filter((p) => p.collection === collection.slug);
+    return [
+      { title: collection.name, href: collection.href },
+      ...collectionProducts.map((product) => ({
+        title: product.title,
+        href: product.href,
+        nested: true,
+      })),
+    ];
+  }),
+];
+
+const navGroups = [
+  {
+    label: 'Foundations',
+    items: [
+      { id: 'colors', label: 'Color', keywords: 'color brand surface token' },
+      { id: 'typography', label: 'Typography', keywords: 'font text hero display' },
+      { id: 'spacing', label: 'Spacing', keywords: 'space rhythm layout' },
+    ],
+  },
+  {
+    label: 'Components',
+    items: [
+      { id: 'buttons', label: 'Buttons', keywords: 'button primary secondary ghost inverse cta' },
+      { id: 'icon-buttons', label: 'Icon buttons', keywords: 'icon carousel cart add' },
+      { id: 'links', label: 'Text links', keywords: 'link arrow more info' },
+      { id: 'tabs', label: 'Pill tabs', keywords: 'tabs category shop filter' },
+      { id: 'rating', label: 'Star rating', keywords: 'stars review rating' },
+      { id: 'search', label: 'Search bar', keywords: 'search hero furniture' },
+      { id: 'catalog', label: 'Catalog UI', keywords: 'badge price input select product card' },
+      { id: 'social', label: 'Social icons', keywords: 'social footer hugeicon' },
+    ],
+  },
+  {
+    label: 'Site',
+    items: [
+      { id: 'sitemap', label: 'Sitemap', keywords: 'pages routes shop products sitemap' },
+    ],
+  },
+];
+---
+
+<div class="container ds-layout" data-design-system>
+  <aside class="ds-sidebar" aria-label="Design system navigation">
+    <div class="ds-search">
+      <svg class="ds-search__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <circle cx="9" cy="9" r="5.75" stroke="currentColor" stroke-width="1.5" />
+        <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+      <input
+        type="search"
+        class="ds-search__input"
+        data-ds-search
+        placeholder="Search tokens & components…"
+        aria-label="Search design system"
+      />
+    </div>
+
+    <nav class="ds-nav">
+      {navGroups.map((group) => (
+        <div class="ds-nav__group">
+          <p class="ds-nav__label">{group.label}</p>
+          {group.items.map((item) => (
+            <a
+              href={`#${item.id}`}
+              class="ds-nav__link"
+              data-ds-nav={item.id}
+              data-ds-keywords={item.keywords}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      ))}
+    </nav>
+  </aside>
+
+  <div class="ds-main">
+    <header class="ds-hero">
+      <Eyebrow>Design system</Eyebrow>
+      <h1 class="ds-hero__title">{settings.brandName}</h1>
+      <p class="ds-hero__lede">
+        Living reference for every token and component used on this site. Rebrand in
+        <code>src/styles/tokens.css</code> and <code>src/content/site/settings.json</code>.
+      </p>
+    </header>
+
+    <p class="ds-empty" data-ds-empty>No matches. Try “button”, “tabs”, or “color”.</p>
+
+    <section id="colors" class="ds-panel" data-ds-panel data-ds-keywords="color brand surface token palette">
+      <div class="ds-panel__head">
+        <Eyebrow>Foundations</Eyebrow>
+        <h2 class="ds-panel__title">Color</h2>
+        <p class="ds-panel__desc">Core palette mapped to CSS custom properties.</p>
+      </div>
+      <div class="ds-stage ds-stage--grid">
+        {colorTokens.map((token) => (
+          <div class="ds-token">
+            <div class="ds-token__swatch" style={`background: var(${token});`} />
+            <code>{token}</code>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="typography" class="ds-panel" data-ds-panel data-ds-keywords="typography font text display hero">
+      <div class="ds-panel__head">
+        <Eyebrow>Foundations</Eyebrow>
+        <h2 class="ds-panel__title">Typography</h2>
+        <p class="ds-panel__desc">Display and UI scales from tokens.</p>
+      </div>
+      <div class="ds-stage">
+        {typeTokens.map((token) => (
+          <p class="ds-type-row" style={`font-size: var(${token});`}>
+            {token} — Crafted for calm, modern interiors
+          </p>
+        ))}
+      </div>
+    </section>
+
+    <section id="spacing" class="ds-panel" data-ds-panel data-ds-keywords="spacing space rhythm layout">
+      <div class="ds-panel__head">
+        <Eyebrow>Foundations</Eyebrow>
+        <h2 class="ds-panel__title">Spacing</h2>
+      </div>
+      <div class="ds-stage ds-stage--row">
+        {spaceTokens.map((token) => (
+          <div class="ds-metric">
+            <div class="ds-metric__box" style={`width: var(${token}); height: var(${token});`} />
+            <code>{token}</code>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="buttons" class="ds-panel" data-ds-panel data-ds-keywords="button primary secondary ghost inverse cta">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Button</h2>
+        <p class="ds-panel__desc">
+          One component — customize with <code>variant</code> (primary, secondary, ghost, inverse) and
+          <code>size</code> (sm, md, lg).
+        </p>
+      </div>
+      <div class="ds-stage ds-stage--stack">
+        <div class="ds-stage ds-stage--row">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="inverse">Inverse</Button>
+          <Button variant="primary" size="sm">Small</Button>
+          <Button variant="primary" size="lg">Large</Button>
+        </div>
+      </div>
+    </section>
+
+    <section id="icon-buttons" class="ds-panel" data-ds-panel data-ds-keywords="icon button carousel cart add">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Icon button</h2>
+        <p class="ds-panel__desc">
+          One component — customize with <code>variant</code> (inverse, surface) and
+          <code>direction</code> (prev, next) for carousels.
+        </p>
+      </div>
+      <div class="ds-stage ds-stage--row">
+        <IconButton variant="inverse" size="add" aria-label="Add to cart">
+          <img src="/assets/figma/icon-plus.svg" alt="" width="18" height="18" />
+        </IconButton>
+        <IconButton variant="surface" direction="prev" aria-label="Previous">
+          <img src="/assets/figma/arrow-carousel-gold.svg" alt="" width="26" height="26" />
+        </IconButton>
+        <IconButton variant="surface" direction="next" aria-label="Next">
+          <img src="/assets/figma/arrow-carousel-gold.svg" alt="" width="26" height="26" />
+        </IconButton>
+      </div>
+    </section>
+
+    <section id="links" class="ds-panel" data-ds-panel data-ds-keywords="text link arrow more info">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Text link</h2>
+        <p class="ds-panel__desc">
+          One component — customize with <code>variant</code> (display, body). Arrow icon is shared via
+          <code>ArrowLinkIcon</code>.
+        </p>
+      </div>
+      <div class="ds-stage ds-stage--row">
+        <TextLink href={localizeHref('/about')} variant="display">More Info</TextLink>
+        <TextLink href={localizeHref('/shop')} variant="body">More Info</TextLink>
+      </div>
+    </section>
+
+    <section id="tabs" class="ds-panel" data-ds-panel data-ds-keywords="pill tabs category shop filter">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Pill tabs</h2>
+        <p class="ds-panel__desc">
+          One component — customize with <code>align</code> (start, center) and <code>mode</code> (link, button).
+          Shop pages use center + link; Best Selling uses start + button.
+        </p>
+      </div>
+      <div class="ds-stage">
+        <PillTabs
+          items={pillTabItems}
+          activeId="chair"
+          ariaLabel="Product categories"
+          mode="link"
+          align="center"
+        />
+      </div>
+    </section>
+
+    <section id="rating" class="ds-panel" data-ds-panel data-ds-keywords="star rating review">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Star rating</h2>
+        <p class="ds-panel__desc">One component — customize with <code>rating</code> and optional <code>size</code> (sm).</p>
+      </div>
+      <div class="ds-stage ds-stage--row">
+        <StarRating rating={4.5} />
+        <StarRating rating={4.5} size="sm" />
+      </div>
+    </section>
+
+    <section id="search" class="ds-panel" data-ds-panel data-ds-keywords="search bar hero furniture">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Search bar</h2>
+        <p class="ds-panel__desc">Home hero search field.</p>
+      </div>
+      <div class="ds-stage ds-stage--muted">
+        <SearchBar action={localizeHref('/shop')} placeholder="Search furniture" />
+      </div>
+    </section>
+
+    <section id="catalog" class="ds-panel" data-ds-panel data-ds-keywords="badge price input select product card catalog">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Catalog &amp; forms</h2>
+        <p class="ds-panel__desc">Badge, Price, CustomSelect, and ProductCard used across shop pages.</p>
+      </div>
+      <div class="ds-stage ds-stage--stack">
+        <div class="ds-stage ds-stage--row">
+          <Badge variant="brand">Featured</Badge>
+          <Badge variant="sale">{ui.sale}</Badge>
+          <Badge variant="success">{ui.inStock}</Badge>
+          <Price price={89} symbol="$" />
+          <Price price={89} compareAtPrice={110} symbol="$" size="large" />
+        </div>
+        <div class="ds-stage ds-stage--row">
+          <CustomSelect
+            prefix={ui.sortBy}
+            value="featured"
+            options={[
+              { value: 'featured', label: ui.sortFeatured },
+              { value: 'price-asc', label: ui.sortPriceAsc },
+              { value: 'price-desc', label: ui.sortPriceDesc },
+            ]}
+          />
+          {sampleProduct && (
+            <div style="max-width: 16rem;">
+              <ProductCard product={sampleProduct} currencySymbol="$" />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section id="social" class="ds-panel" data-ds-panel data-ds-keywords="social footer icon">
+      <div class="ds-panel__head">
+        <Eyebrow>Components</Eyebrow>
+        <h2 class="ds-panel__title">Social icons</h2>
+        <p class="ds-panel__desc">HugeIcon wrapper with shared social icon map.</p>
+      </div>
+      <div class="ds-stage ds-stage--row">
+        {(Object.keys(socialIcons) as Array<keyof typeof socialIcons>).map((name) => (
+          <span class="ds-chip">
+            <HugeIcon icon={socialIcons[name]} size={20} />
+            {name}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <section id="sitemap" class="ds-panel" data-ds-panel data-ds-keywords="sitemap pages routes shop products">
+      <div class="ds-panel__head">
+        <Eyebrow>Site</Eyebrow>
+        <h2 class="ds-panel__title">Sitemap</h2>
+        <p class="ds-panel__desc">All routes generated at build time. Edit content in the CMS at <code>/admin</code>.</p>
+      </div>
+      <div class="ds-stage ds-sitemap">
+        <div class="ds-sitemap__group">
+          <h3 class="ds-sitemap__heading">Marketing</h3>
+          <ul class="ds-sitemap__list">
+            {marketingPages.map((page) => (
+              <li>
+                <a href={page.href}>{page.title}</a>
+                <code>{page.href}</code>
+              </li>
+            ))}
+            <li>
+              <a href={localizeHref('/design-system')}>Design system</a>
+              <code>/design-system</code>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ds-sitemap__group">
+          <h3 class="ds-sitemap__heading">Shop</h3>
+          <ul class="ds-sitemap__list">
+            {shopRoutes.map((route) => (
+              <li class:list={[{ 'ds-sitemap__item--nested': 'nested' in route && route.nested }]}>
+                <a href={route.href}>{route.title}</a>
+                <code>{route.href}</code>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="../scripts/design-system.client.ts"></script>
+<script src="../scripts/shop-tabs.client.ts"></script>
+<script src="../scripts/custom-select.client.ts"></script>

@@ -1,0 +1,131 @@
+---
+import Button from '../ui/Button.astro';
+import CustomSelect from '../ui/CustomSelect.astro';
+import type { ContactSection } from '../../types/sections';
+
+interface Props {
+  section: ContactSection;
+}
+
+const { section } = Astro.props;
+
+const eyebrow = section.eyebrow ?? 'Get in touch';
+const email = section.email ?? 'hello@kujera.example';
+const phone = section.phone ?? '+1 (555) 012-3456';
+const address = section.address ?? '240 Mercer Street, New York, NY 10012';
+const hours =
+  section.hours ??
+  'Monday – Friday, 9am – 6pm EST. Studio visits are available by appointment.';
+---
+
+<section class="contact-page" aria-labelledby="contact-page-title">
+  <div class="contact-page__intro">
+    <p class="contact-page__eyebrow">{eyebrow}</p>
+    <h1 class="contact-page__headline" id="contact-page-title">{section.headline}</h1>
+    {section.subheadline && <p class="contact-page__lede">{section.subheadline}</p>}
+  </div>
+
+  <div class="contact-page__grid">
+    <form class="contact-form" data-contact-form novalidate>
+      <div class="contact-form__fields">
+        <div class="contact-form__row">
+          <label class="contact-form__field">
+            <span class="contact-form__label">First name</span>
+            <input class="input" type="text" name="firstName" autocomplete="given-name" required />
+          </label>
+          <label class="contact-form__field">
+            <span class="contact-form__label">Last name</span>
+            <input class="input" type="text" name="lastName" autocomplete="family-name" required />
+          </label>
+        </div>
+
+        <label class="contact-form__field">
+          <span class="contact-form__label">Email</span>
+          <input class="input" type="email" name="email" autocomplete="email" required />
+        </label>
+
+        <div class="contact-form__field">
+          <label class="contact-form__label" for="custom-select-topic">Topic</label>
+          <CustomSelect
+            id="custom-select-topic"
+            name="topic"
+            required
+            placeholder="Select a topic"
+            options={[
+              { value: 'order', label: 'Order & delivery' },
+              { value: 'product', label: 'Product question' },
+              { value: 'custom', label: 'Custom project' },
+              { value: 'showroom', label: 'Studio visit' },
+              { value: 'other', label: 'Something else' },
+            ]}
+          />
+        </div>
+
+        <label class="contact-form__field">
+          <span class="contact-form__label">Message</span>
+          <textarea
+            class="input contact-form__textarea"
+            name="message"
+            rows="5"
+            placeholder="Tell us how we can help…"
+            required
+          ></textarea>
+        </label>
+      </div>
+
+      <div class="contact-form__footer">
+        <Button type="submit" variant="primary" size="lg">Send message</Button>
+        <p class="contact-form__note" data-contact-form-note hidden role="status">
+          Thank you — we&apos;ll be in touch within one business day.
+        </p>
+      </div>
+    </form>
+
+    <aside class="contact-page__aside" aria-label="Contact details">
+      <div class="contact-card">
+        <p class="contact-card__label">Email</p>
+        <a class="contact-card__value" href={`mailto:${email}`}>{email}</a>
+        <p class="contact-card__hint">We reply within one business day.</p>
+      </div>
+
+      <div class="contact-card">
+        <p class="contact-card__label">Phone</p>
+        <a class="contact-card__value" href={`tel:${phone.replace(/\s|\(|\)|-/g, '')}`}>{phone}</a>
+        <p class="contact-card__hint">Speak with our customer care team.</p>
+      </div>
+
+      <div class="contact-card">
+        <p class="contact-card__label">Studio</p>
+        <p class="contact-card__value contact-card__value--text">{address}</p>
+        <p class="contact-card__hint">{hours}</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script>
+  function initContactForms() {
+    document.querySelectorAll('[data-contact-form]').forEach((form) => {
+      if (!(form instanceof HTMLFormElement) || form.dataset.initialized === 'true') return;
+      form.dataset.initialized = 'true';
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const note = form.querySelector('[data-contact-form-note]');
+        note?.removeAttribute('hidden');
+        form.reset();
+        note?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+  }
+
+  initContactForms();
+  document.addEventListener('astro:page-load', initContactForms);
+</script>
+
+<script src="../../scripts/custom-select.client.ts"></script>

@@ -1,0 +1,101 @@
+---
+import { localizeHref } from '../../lib/i18n';
+import IconButton from '../ui/IconButton.astro';
+import PillTabs from '../ui/PillTabs.astro';
+import StarRating from '../ui/StarRating.astro';
+import type { BestSellingProductsSection } from '../../types/sections';
+interface Props {
+  section: BestSellingProductsSection;
+  currencySymbol?: string;
+}
+
+const { section, currencySymbol = '$' } = Astro.props;
+
+const categories = section.categories ?? [
+  { id: 'chair', label: 'Chair' },
+  { id: 'beds', label: 'Beds' },
+  { id: 'soft-furnishings', label: 'Furnishings' },
+  { id: 'accents', label: 'Accents' },
+];
+const defaultCategory = section.defaultCategory ?? categories[0]?.id ?? 'chair';
+const headline = section.headline ?? 'Best Selling Product';
+const viewAllHref = localizeHref(section.viewAllHref ?? '/shop');
+---
+
+<section class="best-selling" aria-labelledby="best-selling-title" data-best-selling="best-selling">
+  <div class="best-selling__header">
+    <h2 class="best-selling__headline" id="best-selling-title">{headline}</h2>
+    <PillTabs
+      items={categories}
+      activeId={defaultCategory}
+      ariaLabel="Product categories"
+      mode="button"
+      class="best-selling__tabs"
+    />
+  </div>
+
+  <div class="best-selling__grid-wrap">
+    <div class="best-selling__track-outer">
+      <div class="best-selling__track" data-products-track>
+        {section.products.map((product) => {
+          const productHref = localizeHref(`/shop/${product.category}/${product.slug}`);
+          return (
+          <article
+            class="best-selling__card"
+            data-category={product.category}
+            hidden={product.category !== defaultCategory}
+          >
+            <a
+              href={productHref}
+              class="best-selling__card-link"
+              aria-label={`View ${product.name}`}
+            />
+            <div class="best-selling__card-bg" aria-hidden="true" />
+            <div class="best-selling__card-image-area" aria-hidden="true">
+              <img class="best-selling__card-image-bg" src="/assets/figma/card-image-bg.svg" alt="" />
+            </div>
+            <div class="best-selling__product-frame">
+              <img class="best-selling__product-img" src={product.image} alt="" loading="lazy" />
+            </div>
+            <div class="best-selling__card-info">
+              <div class="best-selling__card-meta">
+                <p class="best-selling__card-label">{product.label}</p>
+                <h3 class="best-selling__card-name">{product.name}</h3>
+                <StarRating rating={product.rating} class="best-selling__stars" />
+              </div>
+              <div class="best-selling__card-footer">
+                <div class="best-selling__price">
+                  <span class="best-selling__price-symbol">{currencySymbol}</span>
+                  <span class="best-selling__price-value">{product.price}</span>
+                </div>
+                <IconButton
+                  variant="inverse"
+                  size="add"
+                  type="button"
+                  aria-label={`Add ${product.name} to cart`}
+                  class="best-selling__add-btn"
+                  data-add-to-cart
+                  data-product-slug={product.slug}
+                  data-product-title={product.name}
+                  data-product-price={product.price}
+                  data-product-image={product.image}
+                  data-variant-id="default"
+                >
+                  <img src="/assets/figma/icon-plus.svg" alt="" width="18" height="18" />
+                </IconButton>
+              </div>
+            </div>
+          </article>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  <a href={viewAllHref} class="best-selling__view-all">
+    View All
+    <img src="/assets/figma/arrow-view-all.svg" alt="" width="48" height="24" />
+  </a>
+</section>
+
+<script src="../../scripts/best-selling.client.ts"></script>

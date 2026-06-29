@@ -1,0 +1,12 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id, class: className = '' } = Astro.props;
+---
+
+<h2 class:list={['split-heading', className]} id={id}>
+  <slot />
+</h2>

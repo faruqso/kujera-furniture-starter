@@ -1,0 +1,27 @@
+{
+  "slug": "plush-bed",
+  "sku": "BED-008",
+  "collection": "beds",
+  "title": "Plush Bed",
+  "description": "Oversized headboard with channel tufting.",
+  "price": 1149,
+  "images": [
+    "/assets/products/beds/plush-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

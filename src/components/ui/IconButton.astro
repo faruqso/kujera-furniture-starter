@@ -1,0 +1,49 @@
+---
+export type IconButtonVariant = 'surface' | 'ghost' | 'primary' | 'inverse';
+export type IconButtonSize = 'sm' | 'md' | 'lg' | 'add';
+export type IconButtonDirection = 'prev' | 'next';
+
+interface Props {
+  'aria-label': string;
+  href?: string;
+  type?: 'button' | 'submit';
+  disabled?: boolean;
+  size?: IconButtonSize;
+  variant?: IconButtonVariant;
+  direction?: IconButtonDirection;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  type = 'button',
+  disabled = false,
+  size = 'md',
+  variant = 'surface',
+  direction,
+  class: className = '',
+  'aria-label': ariaLabel,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  'icon-btn',
+  `icon-btn--${size}`,
+  `icon-btn--${variant}`,
+  direction && `icon-btn--${direction}`,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{href ? (
+  <a href={href} class={classes} aria-label={ariaLabel} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes} aria-label={ariaLabel} disabled={disabled} {...rest}>
+    <slot />
+  </button>
+)}

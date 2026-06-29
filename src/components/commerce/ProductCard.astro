@@ -1,0 +1,52 @@
+---
+import Price from '../ui/Price.astro';
+import Badge from '../ui/Badge.astro';
+import IconButton from '../ui/IconButton.astro';
+import { ui } from '../../i18n/ui';
+import type { ResolvedProduct } from '../../lib/products';
+
+interface Props {
+  product: ResolvedProduct;
+  currencySymbol?: string;
+}
+
+const { product, currencySymbol = '$' } = Astro.props;
+const onSale = product.compareAtPrice != null && product.compareAtPrice > product.price;
+const defaultVariant = product.variants?.[0]?.id ?? 'default';
+---
+
+<article class="product-card">
+  <a href={product.href} class="product-card__media">
+    <img src={product.images[0]} alt={product.title} loading="lazy" />
+    <div class="product-card__badge">
+      {onSale && <Badge variant="sale">{ui.sale}</Badge>}
+      {!onSale && product.featured && <Badge variant="brand">{ui.featured}</Badge>}
+    </div>
+  </a>
+  <div class="product-card__info">
+    <a href={product.href} class="product-card__title">{product.title}</a>
+    <div class="product-card__footer">
+      <Price
+        price={product.price}
+        compareAtPrice={product.compareAtPrice}
+        symbol={currencySymbol}
+      />
+      <IconButton
+        variant="inverse"
+        size="add"
+        type="button"
+        aria-label={`${ui.addToCart}: ${product.title}`}
+        class="product-card__add-btn"
+        data-add-to-cart
+        data-product-slug={product.slug}
+        data-product-title={product.title}
+        data-product-price={product.price}
+        data-product-image={product.images[0]}
+        data-variant-id={defaultVariant}
+        disabled={!product.inStock}
+      >
+        <img src="/assets/figma/icon-plus.svg" alt="" width="18" height="18" />
+      </IconButton>
+    </div>
+  </div>
+</article>

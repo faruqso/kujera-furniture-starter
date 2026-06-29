@@ -1,0 +1,363 @@
+/* Shared button micro-interaction */
+.btn,
+.icon-btn {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Gold fill sweep — dark base, brand washes in from the left */
+.btn--primary,
+.icon-btn--inverse,
+.icon-btn--primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.btn--primary::after,
+.icon-btn--inverse::after,
+.icon-btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: inherit;
+}
+
+.btn--primary::before,
+.icon-btn--inverse::before,
+.icon-btn--primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-fluid) var(--ease-fluid);
+}
+
+.btn--primary:hover:not(:disabled)::before,
+.icon-btn--inverse:hover:not(:disabled)::before,
+.icon-btn--primary:hover:not(:disabled)::before,
+.btn--primary:focus-visible::before,
+.icon-btn--inverse:focus-visible::before,
+.icon-btn--primary:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transform: translateY(0) scale(1);
+  transition:
+    color var(--duration-fast) var(--ease-default),
+    border-color var(--duration-fast) var(--ease-default),
+    box-shadow var(--duration-fast) var(--ease-default),
+    transform var(--duration-fast) var(--ease-default);
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 80ms;
+}
+
+.btn:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.btn--sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.btn--md {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-base);
+}
+
+.btn--lg {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-lg);
+}
+
+.btn--primary {
+  color: var(--color-text-on-brand);
+  background: transparent;
+  border-color: var(--color-product-title);
+}
+
+.btn--primary::after {
+  background: var(--color-product-title);
+}
+
+.btn--primary:hover:not(:disabled) {
+  border-color: var(--color-brand);
+  box-shadow: 0 4px 14px rgba(205, 162, 0, 0.35);
+}
+
+.btn--primary:active:not(:disabled) {
+  box-shadow: 0 2px 6px rgba(205, 162, 0, 0.25);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  border-color: var(--color-brand);
+  color: var(--color-brand-hover);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--color-surface-raised);
+}
+
+.btn--inverse {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.btn--inverse:hover:not(:disabled) {
+  background: var(--color-brand-muted);
+  border-color: var(--color-brand);
+}
+
+.btn:disabled,
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn:disabled::before,
+.icon-btn:disabled::before {
+  transform: scaleX(0);
+}
+
+/* Icon buttons */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-brand);
+  background: var(--color-surface);
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transform: translateY(0) scale(1);
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    box-shadow var(--duration-fast) var(--ease-default),
+    transform var(--duration-fast) var(--ease-default);
+}
+
+.icon-btn:hover:not(:disabled) {
+  border-color: var(--color-brand-hover);
+  background: var(--color-brand-subtle);
+  box-shadow: 0 10px 18px rgba(205, 162, 0, 0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.icon-btn:active:not(:disabled) {
+  border-color: var(--color-brand);
+  background: var(--color-brand-muted);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(0) scale(0.96);
+  transition-duration: 80ms;
+}
+
+.icon-btn--sm {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.icon-btn--md {
+  width: 3.130625rem;
+  height: 3.130625rem;
+}
+
+.icon-btn--lg {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.icon-btn--add {
+  width: 2.375rem;
+  height: 2.375rem;
+}
+
+.icon-btn--add.icon-btn--inverse {
+  border: none;
+  box-shadow: none;
+}
+
+.icon-btn--add.icon-btn--inverse:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(205, 162, 0, 0.28);
+  transform: translateY(-1px) scale(1.04);
+}
+
+.icon-btn--add.icon-btn--inverse:active:not(:disabled) {
+  box-shadow: 0 3px 8px rgba(205, 162, 0, 0.22);
+}
+
+.icon-btn--ghost {
+  background: transparent;
+  box-shadow: none;
+}
+
+.icon-btn--ghost:hover:not(:disabled) {
+  background: var(--color-brand-muted);
+  box-shadow: none;
+}
+
+.icon-btn--primary {
+  background: transparent;
+  border-color: var(--color-brand);
+  color: var(--color-text-on-brand);
+}
+
+.icon-btn--primary::after {
+  background: var(--color-brand);
+}
+
+.icon-btn--primary::before {
+  background: var(--color-brand-hover);
+}
+
+.icon-btn--primary:hover:not(:disabled) {
+  border-color: var(--color-brand-hover);
+  box-shadow: 0 10px 22px rgba(205, 162, 0, 0.32);
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Dark filled circle — gold sweep + icon invert on hover */
+.icon-btn--inverse {
+  background: transparent;
+  border-color: var(--color-product-title);
+  color: var(--color-text-on-brand);
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.08);
+}
+
+.icon-btn--inverse::after {
+  background: var(--color-product-title);
+}
+
+.icon-btn--inverse:hover:not(:disabled) {
+  background: transparent;
+  border-color: var(--color-brand);
+  box-shadow: 0 10px 22px rgba(205, 162, 0, 0.35);
+  transform: translateY(-2px) scale(1.06);
+}
+
+.icon-btn--inverse:active:not(:disabled) {
+  box-shadow: 0 4px 10px rgba(205, 162, 0, 0.28);
+  transform: translateY(0) scale(0.96);
+}
+
+.icon-btn--inverse :is(img, svg) {
+  filter: brightness(0) invert(1);
+  transition:
+    filter var(--duration-fluid) var(--ease-fluid),
+    transform var(--duration-fast) var(--ease-default);
+}
+
+.icon-btn--inverse:hover:not(:disabled) :is(img, svg),
+.icon-btn--inverse:focus-visible :is(img, svg) {
+  filter: brightness(0) saturate(100%);
+}
+
+.icon-btn :is(img, svg) {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 1.6304375rem;
+  height: 1.6304375rem;
+  transition: transform var(--duration-fast) var(--ease-default);
+}
+
+.icon-btn--add :is(img, svg) {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.icon-btn--sm :is(img, svg) {
+  width: 1rem;
+  height: 1rem;
+}
+
+.icon-btn--lg :is(img, svg) {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.icon-btn--prev :is(img, svg) {
+  transform: rotate(180deg);
+}
+
+.icon-btn--prev:hover:not(:disabled) :is(img, svg),
+.icon-btn--prev:active:not(:disabled) :is(img, svg) {
+  transform: rotate(180deg) scale(1.05);
+}
+
+.icon-btn--next:hover:not(:disabled) :is(img, svg),
+.icon-btn--next:active:not(:disabled) :is(img, svg) {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .icon-btn,
+  .icon-btn :is(img, svg) {
+    transition: none;
+  }
+
+  .btn--primary::before,
+  .icon-btn--inverse::before,
+  .icon-btn--primary::before {
+    transition: none;
+  }
+
+  .btn--primary:hover:not(:disabled)::before,
+  .icon-btn--inverse:hover:not(:disabled)::before,
+  .icon-btn--primary:hover:not(:disabled)::before,
+  .btn--primary:focus-visible::before,
+  .icon-btn--inverse:focus-visible::before,
+  .icon-btn--primary:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  .btn:hover:not(:disabled),
+  .btn:active:not(:disabled),
+  .icon-btn:hover:not(:disabled),
+  .icon-btn:active:not(:disabled) {
+    transform: none;
+  }
+}

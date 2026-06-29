@@ -1,0 +1,20 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['link-arrow', className]} aria-hidden="true">
+  <span class="link-arrow__line"></span>
+  <svg class="link-arrow__chevron" viewBox="0 0 8 12" fill="none">
+    <path
+      d="M1 1.2 6.2 6 1 10.8"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="square"
+      stroke-linejoin="miter"
+    />
+  </svg>
+</span>

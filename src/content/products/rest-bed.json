@@ -1,0 +1,28 @@
+{
+  "slug": "rest-bed",
+  "sku": "BED-004",
+  "collection": "beds",
+  "title": "Rest Bed",
+  "description": "Canopy-inspired frame with linen upholstery.",
+  "price": 1099,
+  "compareAtPrice": 1299,
+  "images": [
+    "/assets/products/beds/rest-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

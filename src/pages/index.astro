@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionRenderer from '../components/SectionRenderer.astro';
+import { getPageBySlug } from '../lib/products';
+import { getSiteSettings } from '../lib/site-settings';
+
+const page = await getPageBySlug('home');
+
+if (!page) {
+  throw new Error('Home page not found');
+}
+
+const settings = await getSiteSettings();
+---
+
+<BaseLayout title={page.data.title} path="/" navTransparent hideAnnouncement>
+  <SectionRenderer
+    sections={page.data.sections}
+    currencySymbol={settings.currency.symbol}
+  />
+</BaseLayout>

@@ -1,0 +1,14 @@
+{
+  "slug": "marble-coffee-table",
+  "sku": "ACC-006",
+  "collection": "accents",
+  "title": "Marble Coffee Table",
+  "description": "Rectangular marble-top coffee table with a slim black metal X-frame base.",
+  "price": 499,
+  "images": ["/assets/products/accents/marble-coffee-table.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["accents", "table"],
+  "inStock": true,
+  "featured": false,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

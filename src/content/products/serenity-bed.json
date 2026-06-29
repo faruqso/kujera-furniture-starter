@@ -1,0 +1,27 @@
+{
+  "slug": "serenity-bed",
+  "sku": "BED-003",
+  "collection": "beds",
+  "title": "Serenity Bed",
+  "description": "Low platform bed in natural oak finish.",
+  "price": 849,
+  "images": [
+    "/assets/products/beds/serenity-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

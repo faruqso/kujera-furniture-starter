@@ -1,0 +1,56 @@
+---
+import Hero from './sections/Hero.astro';
+import WhyChoosingUs from './sections/WhyChoosingUs.astro';
+import BestSellingProducts from './sections/BestSellingProducts.astro';
+import Experiences from './sections/Experiences.astro';
+import Materials from './sections/Materials.astro';
+import Testimonials from './sections/Testimonials.astro';
+import Cta from './sections/Cta.astro';
+import Contact from './sections/Contact.astro';
+import RichText from './sections/RichText.astro';
+import AboutHero from './sections/AboutHero.astro';
+import ParallaxSection from './sections/ParallaxSection.astro';
+import AboutSplit from './sections/AboutSplit.astro';
+import AboutGallery from './sections/AboutGallery.astro';
+import type { PageSection } from '../types/sections';
+
+interface Props {
+  sections: PageSection[];
+  currencySymbol?: string;
+}
+
+const { sections, currencySymbol = '$' } = Astro.props;
+---
+
+{sections.map((section) => {
+  switch (section.type) {
+    case 'hero':
+      return <Hero section={section} />;
+    case 'whyChoosingUs':
+      return <WhyChoosingUs section={section} />;
+    case 'bestSellingProducts':
+      return <BestSellingProducts section={section} currencySymbol={currencySymbol} />;
+    case 'experiences':
+      return <Experiences section={section} />;
+    case 'materials':
+      return <Materials section={section} />;
+    case 'testimonials':
+      return <Testimonials section={section} />;
+    case 'cta':
+      return <Cta section={section} />;
+    case 'contact':
+      return <Contact section={section} />;
+    case 'richText':
+      return <RichText section={section} />;
+    case 'aboutHero':
+      return <AboutHero section={section} />;
+    case 'parallaxSection':
+      return <ParallaxSection section={section} />;
+    case 'aboutSplit':
+      return <AboutSplit section={section} />;
+    case 'aboutGallery':
+      return <AboutGallery section={section} />;
+    default:
+      return null;
+  }
+})}

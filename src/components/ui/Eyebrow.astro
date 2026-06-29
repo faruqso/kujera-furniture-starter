@@ -1,0 +1,12 @@
+---
+interface Props {
+  variant?: 'brand' | 'accent';
+  class?: string;
+}
+
+const { variant = 'brand', class: className = '' } = Astro.props;
+---
+
+<p class:list={['eyebrow', variant === 'accent' && 'eyebrow--accent', className]}>
+  <slot />
+</p>

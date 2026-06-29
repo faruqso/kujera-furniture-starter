@@ -1,0 +1,27 @@
+{
+  "slug": "calm-bed",
+  "sku": "BED-005",
+  "collection": "beds",
+  "title": "Calm Bed",
+  "description": "Minimal metal frame with soft grey bedding set.",
+  "price": 799,
+  "images": [
+    "/assets/products/beds/calm-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

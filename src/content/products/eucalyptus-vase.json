@@ -1,0 +1,14 @@
+{
+  "slug": "eucalyptus-vase",
+  "sku": "ACC-002",
+  "collection": "accents",
+  "title": "Eucalyptus Vase",
+  "description": "Smoke-tinted glass vase with fresh eucalyptus stems — a soft ambient accent.",
+  "price": 89,
+  "images": ["/assets/products/accents/eucalyptus-vase.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["accents"],
+  "inStock": true,
+  "featured": true,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

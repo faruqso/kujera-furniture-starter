@@ -1,0 +1,25 @@
+---
+import type { AboutGallerySection } from '../../types/sections';
+
+interface Props {
+  section: AboutGallerySection;
+}
+
+const { section } = Astro.props;
+---
+
+<section class="about-gallery" aria-labelledby="about-gallery-title">
+  <div class="about-gallery__header">
+    {section.eyebrow && <p class="about-gallery__eyebrow">{section.eyebrow}</p>}
+    <h2 class="about-gallery__headline" id="about-gallery-title">{section.headline}</h2>
+    {section.description && <p class="about-gallery__description">{section.description}</p>}
+  </div>
+
+  <div class="about-gallery__grid">
+    {section.images.map((image, index) => (
+      <figure class:list={['about-gallery__item', `about-gallery__item--${index + 1}`]}>
+        <img src={image.src} alt={image.alt ?? ''} loading="lazy" width="1200" height="900" />
+      </figure>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,27 @@
+{
+  "slug": "haven-bed",
+  "sku": "BED-007",
+  "collection": "beds",
+  "title": "Haven Bed",
+  "description": "Storage bed with hidden drawers and oak trim.",
+  "price": 999,
+  "images": [
+    "/assets/products/beds/haven-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": true,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

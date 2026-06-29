@@ -1,0 +1,249 @@
+/* Shared UI primitives — reused across sections and commerce */
+
+/* Eyebrow labels */
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: var(--weight-semibold);
+  line-height: normal;
+  letter-spacing: 0.196875rem;
+  text-transform: uppercase;
+  color: var(--color-brand);
+  margin: 0;
+}
+
+.eyebrow--accent {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+/* Split two-line section title */
+
+.split-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 2.917vw, 2.625rem);
+  font-weight: var(--weight-semibold);
+  line-height: normal;
+  color: var(--color-text-heading);
+  margin: 0;
+}
+
+.split-heading span {
+  display: block;
+}
+
+/* Text link with animated arrow */
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.85;
+  color: var(--color-brand);
+  text-decoration: none;
+  transition: opacity var(--duration-fast) var(--ease-default);
+}
+
+.text-link--display {
+  gap: 0.8125rem;
+  font-family: var(--font-display);
+  font-weight: var(--weight-normal);
+}
+
+.text-link--body {
+  font-family: var(--font-body);
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  opacity: 0.85;
+}
+
+.text-link:hover .link-arrow__line,
+.text-link:focus-visible .link-arrow__line {
+  width: 2.125rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-link:hover .link-arrow__line,
+  .text-link:focus-visible .link-arrow__line {
+    width: 0.375rem;
+  }
+
+  .link-arrow__line {
+    transition: none;
+  }
+}
+
+/* Pill tabs — shop nav + best-selling categories */
+
+.pill-tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem;
+  background: var(--color-tab-track);
+  border-radius: 2.75rem;
+  border: none;
+  gap: 0.125rem;
+  max-width: 100%;
+}
+
+.pill-tabs--center {
+  display: flex;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.pill-tabs__indicator {
+  position: absolute;
+  top: 0.375rem;
+  left: 0;
+  height: 2.8125rem;
+  border-radius: 2rem;
+  background: var(--color-surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    transform var(--duration-fluid) var(--ease-fluid),
+    width var(--duration-fluid) var(--ease-fluid);
+  will-change: transform, width;
+}
+
+.pill-tab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 2.8125rem;
+  padding: 0.25rem 1.5rem;
+  border: none;
+  border-radius: 2rem;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  color: var(--color-text-heading);
+  opacity: 0.8;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: opacity var(--duration-fast) var(--ease-default);
+}
+
+.pill-tab.is-active {
+  font-weight: var(--weight-medium);
+  opacity: 1;
+}
+
+/* Star rating */
+
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.star-rating img {
+  display: block;
+  flex-shrink: 0;
+}
+
+.star-rating--md img {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.star-rating--sm img {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Hero search bar */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--hero-search-width);
+  padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+  border-radius: var(--radius-hero-search);
+  border: 0.862px solid var(--color-hero-search-border);
+  background: var(--color-hero-search-bg);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.search-bar__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--color-hero-text);
+  opacity: 0.8;
+  outline: none;
+}
+
+.search-bar__input::placeholder {
+  color: var(--color-hero-text);
+  opacity: 0.8;
+}
+
+.search-bar__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.6875rem;
+  border: none;
+  border-radius: var(--radius-hero-search-btn);
+  background: var(--color-brand);
+  color: var(--color-text-on-brand);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-default);
+}
+
+.search-bar__submit:hover {
+  background: var(--color-brand-hover);
+}
+
+.search-bar__submit svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+@media (max-width: 768px) {
+  .pill-tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .pill-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pill-tabs__indicator {
+    display: none;
+  }
+
+  .pill-tab.is-active {
+    background: var(--color-surface);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}

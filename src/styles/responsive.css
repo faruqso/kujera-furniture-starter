@@ -1,0 +1,120 @@
+/* Tablet — 769px to 1024px */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  .collection-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-detail {
+    gap: 2rem;
+  }
+
+  .product-detail__gallery-frame {
+    padding: 2rem;
+  }
+
+  .product-detail__gallery-frame img {
+    max-width: 18rem;
+    max-height: 18rem;
+  }
+
+  .product-related__grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
+  }
+
+  .best-selling__card:not([hidden]) {
+    flex: 0 0 calc((100% - 4.875rem) / 3);
+    max-width: calc((100% - 4.875rem) / 3);
+  }
+
+  .why-choosing__grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .why-choosing__item {
+    flex: 1 1 calc(50% - 0.75rem);
+    width: auto;
+  }
+
+  .testimonials-furniture__carousel {
+    max-width: min(100%, 56rem);
+  }
+
+  .testimonials-furniture__card {
+    flex: 0 0 var(--tf-card);
+    width: var(--tf-card);
+    max-width: var(--tf-card);
+  }
+
+  .contact-page__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .about-split {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .hero--furniture__content {
+    padding-top: clamp(6.5rem, 12vw, 8.5rem);
+  }
+
+  .shop-toolbar {
+    gap: var(--space-3);
+  }
+
+  .shop-page__tabs,
+  .pill-tabs {
+    max-width: calc(100% - 1rem);
+  }
+
+  .site-footer__grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .experiences {
+    padding-block: 3.5rem;
+  }
+
+  .materials {
+    padding-block: 3.5rem 4rem;
+  }
+
+  .cta-furniture__inner {
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .site-header__inner {
+    padding-inline: var(--section-padding-x);
+  }
+
+  .best-selling,
+  .contact-page,
+  .why-choosing {
+    padding-inline: var(--section-padding-x);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .testimonials-furniture {
+    padding-inline: var(--section-padding-x);
+  }
+}

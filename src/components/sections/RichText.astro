@@ -1,0 +1,15 @@
+---
+import type { RichTextSection } from '../../types/sections';
+
+interface Props {
+  section: RichTextSection;
+}
+
+const { section } = Astro.props;
+---
+
+<section class="section">
+  <div class="container container--narrow">
+    <div class="prose" set:html={section.content} />
+  </div>
+</section>

@@ -1,0 +1,73 @@
+---
+import ProductCard from './ProductCard.astro';
+import CustomSelect from '../ui/CustomSelect.astro';
+import PillTabs from '../ui/PillTabs.astro';
+import { getProductsForCollection } from '../../lib/products';
+import { localizeHref } from '../../lib/i18n';
+import { ui, formatUiString } from '../../i18n/ui';
+import type { ResolvedCollection } from '../../lib/products';
+
+interface Props {
+  collection: ResolvedCollection;
+  currencySymbol?: string;
+}
+
+const { collection, currencySymbol = '$' } = Astro.props;
+const products = await getProductsForCollection(collection.slug);
+
+const categories = [
+  { id: 'all', label: 'All', href: localizeHref('/shop') },
+  { id: 'chair', label: 'Chair', href: localizeHref('/shop/chair') },
+  { id: 'beds', label: 'Beds', href: localizeHref('/shop/beds') },
+  { id: 'soft-furnishings', label: 'Furnishings', href: localizeHref('/shop/soft-furnishings') },
+  { id: 'accents', label: 'Accents', href: localizeHref('/shop/accents') },
+];
+---
+
+<div class="shop-page">
+  <div class="container">
+    <header class="shop-header">
+      <p class="shop-header__eyebrow">{collection.name}</p>
+      <h1 class="shop-header__title">{collection.name}</h1>
+      <p class="shop-header__desc">{collection.description}</p>
+    </header>
+
+    <PillTabs
+      items={categories}
+      activeId={collection.slug}
+      ariaLabel="Product categories"
+      mode="link"
+      align="center"
+      class="shop-page__tabs"
+    />
+
+    <div class="shop-toolbar shop-toolbar--end" data-shop-sort-root>
+      <div class="shop-sort">
+        <CustomSelect
+          prefix={ui.sortBy}
+          value="featured"
+          options={[
+            { value: 'featured', label: ui.sortFeatured },
+            { value: 'price-asc', label: ui.sortPriceAsc },
+            { value: 'price-desc', label: ui.sortPriceDesc },
+          ]}
+        />
+      </div>
+    </div>
+
+    <p class="shop-results-count">
+      {formatUiString(ui.productsCount, { count: products.length })}
+    </p>
+
+    <div class="product-grid" data-product-grid>
+      {products.map((product) => (
+        <div data-price={product.price} data-featured={product.featured ? '1' : '0'}>
+          <ProductCard product={product} currencySymbol={currencySymbol} />
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script src="../../scripts/custom-select.client.ts"></script>
+<script src="../../scripts/shop-tabs.client.ts"></script>

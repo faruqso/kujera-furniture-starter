@@ -1,0 +1,14 @@
+{
+  "slug": "round-ottoman-pouf",
+  "sku": "SF-001",
+  "collection": "soft-furnishings",
+  "title": "Round Ottoman Pouf",
+  "description": "Cylindrical linen-textured pouf in warm oatmeal — perfect as extra seating or a footrest.",
+  "price": 199,
+  "images": ["/assets/products/soft-furnishings/round-ottoman-pouf.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["soft-furnishings"],
+  "inStock": true,
+  "featured": true,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

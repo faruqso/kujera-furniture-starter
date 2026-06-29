@@ -1,0 +1,14 @@
+{
+  "slug": "mushroom-table-lamp",
+  "sku": "ACC-001",
+  "collection": "accents",
+  "title": "Mushroom Table Lamp",
+  "description": "Matte black dome lamp with a brass accent ring and soft downward glow.",
+  "price": 149,
+  "images": ["/assets/products/accents/mushroom-table-lamp.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["accents", "lighting"],
+  "inStock": true,
+  "featured": true,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

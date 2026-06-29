@@ -1,0 +1,27 @@
+{
+  "slug": "nest-bed",
+  "sku": "BED-006",
+  "collection": "beds",
+  "title": "Nest Bed",
+  "description": "Rounded headboard bed in cream boucle.",
+  "price": 929,
+  "images": [
+    "/assets/products/beds/nest-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

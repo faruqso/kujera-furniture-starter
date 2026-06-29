@@ -1,0 +1,27 @@
+{
+  "slug": "cloud-bed",
+  "sku": "BED-001",
+  "collection": "beds",
+  "title": "Cloud Bed",
+  "description": "Upholstered platform bed with a cloud-soft headboard.",
+  "price": 899,
+  "images": [
+    "/assets/products/beds/cloud-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": true,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

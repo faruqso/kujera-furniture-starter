@@ -1,0 +1,14 @@
+{
+  "slug": "fluted-coffee-table",
+  "sku": "ACC-005",
+  "collection": "accents",
+  "title": "Fluted Coffee Table",
+  "description": "Round black coffee table with a ribbed pedestal base and stone-toned styling.",
+  "price": 349,
+  "images": ["/assets/products/accents/fluted-coffee-table.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["accents", "table"],
+  "inStock": true,
+  "featured": true,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

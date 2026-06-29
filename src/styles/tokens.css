@@ -1,0 +1,173 @@
+/**
+ * Design tokens — Kujera furniture brand (Figma reference).
+ * Rebrand by editing this file only.
+ */
+:root {
+  /* Brand — Figma hero */
+  --color-brand: #cda200;
+  --color-brand-hover: #b89000;
+  --color-brand-muted: rgba(205, 162, 0, 0.15);
+  --color-brand-subtle: #faf8f3;
+  --color-accent: #cda200;
+
+  /* Hero overlay */
+  --color-hero-text: #ffffff;
+  --color-hero-text-muted: rgba(255, 255, 255, 0.8);
+  --color-hero-search-bg: rgba(255, 255, 255, 0.15);
+  --color-hero-search-border: rgba(255, 255, 255, 0.6);
+  --color-hero-gradient-end: #ffffff;
+
+  /* Commerce */
+  --color-sale: #c0392b;
+  --color-price: #1a1a1a;
+  --color-compare-price: #888;
+  --color-in-stock: #2d6a4f;
+  --color-out-of-stock: #999;
+
+  /* Text */
+  --color-text: #1a1a1a;
+  --color-text-heading: #1e1e1e;
+  --color-text-muted: #666;
+  --color-text-subtle: #999;
+  --color-text-product-label: #8d8d8d;
+  --color-product-title: #0d1b39;
+  --color-text-inverse: #fff;
+  --color-text-on-brand: #fff;
+
+  /* Surfaces */
+  --color-surface: #fff;
+  --color-surface-raised: #fafafa;
+  --color-surface-overlay: rgba(0, 0, 0, 0.5);
+  --color-surface-dark: #1a1a1a;
+  --color-section-muted: #f7f7f7;
+  --color-tab-track: #eee;
+  --color-card-image-bg: #f5f5f5;
+
+  /* Borders */
+  --color-border: #e5e5e5;
+  --color-border-strong: #ccc;
+
+  /* Semantic */
+  --color-success: #2d6a4f;
+  --color-success-subtle: #e8f5ee;
+  --color-error: #c0392b;
+  --color-error-subtle: #fdecea;
+  --color-warning: #cda200;
+
+  /* Typography — Figma: Poppins + Gilroy placeholder */
+  --font-display: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Poppins', system-ui, sans-serif;
+  --font-ui: 'Gilroy', 'Poppins', system-ui, sans-serif;
+  --font-product: 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-hero: clamp(2.25rem, 5.556vw, 5rem);
+  --text-hero-sub: clamp(1rem, 1.667vw, 1.5rem);
+  --text-nav-brand: clamp(1.25rem, 1.944vw, 1.75rem);
+  --text-nav-link: 1.125rem;
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  --leading-hero: 1.3;
+  --leading-hero-sub: 1.6;
+
+  --tracking-hero: -0.8px;
+  --tracking-brand: 0.28px;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Layout */
+  --container-max: 90rem;
+  --container-narrow: 48rem;
+  --header-height: 4rem;
+  --header-overlay-height: clamp(4.25rem, 5vw, 6.25rem);
+  --hero-height: clamp(640px, 75.28vw, 1084px);
+  --hero-content-max: 37.875rem;
+  --hero-search-width: 21.5rem;
+  --product-card-aspect: 4 / 5;
+  --section-padding-x: clamp(1.25rem, 5.556vw, 5rem);
+  --section-padding-y: var(--space-16);
+  --breakpoint-tablet: 1024px;
+  --breakpoint-mobile: 768px;
+
+  /* Radius — Figma hero */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  --radius-hero-search: 2.625rem;
+  --radius-hero-search-btn: 1.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-hotspot-tooltip: 0 4px 2px rgba(0, 0, 0, 0.25);
+
+  /* Z-index */
+  --z-hero-content: 2;
+  --z-hero-hotspot: 3;
+  --z-header: 100;
+  --z-mobile-menu: 150;
+  --z-drawer: 200;
+  --z-toast: 300;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-fluid: 450ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-fluid: cubic-bezier(0.33, 1, 0.68, 1);
+
+  /* Hero hotspot swatches */
+  --color-swatch-gold: #cda200;
+  --color-swatch-teal: #56c4c4;
+  --color-swatch-white: #ffffff;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --section-padding-x: clamp(1.5rem, 4vw, 2.75rem);
+    --section-padding-y: var(--space-14);
+    --hero-height: clamp(520px, 68vh, 820px);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --text-4xl: 1.875rem;
+    --text-5xl: 2.25rem;
+    --section-padding-x: clamp(1.25rem, 5vw, 1.5rem);
+    --section-padding-y: var(--space-12);
+    --hero-search-width: min(21.5rem, calc(100vw - 2.5rem));
+    --header-height: 4.25rem;
+  }
+}

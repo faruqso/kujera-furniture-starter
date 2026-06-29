@@ -1,0 +1,94 @@
+---
+import Button from '../ui/Button.astro';
+import { localizeHref } from '../../lib/i18n';
+import type { CtaSection } from '../../types/sections';
+interface Props {
+  section: CtaSection;
+}
+
+const { section } = Astro.props;
+const imageSrc = section.image ?? '/assets/cta/cta-interior.jpg';
+const eyebrow = section.eyebrow ?? 'Get started';
+---
+
+<section class="cta-furniture" aria-labelledby="cta-furniture-title" data-cta-section>
+  <div class="cta-furniture__inner">
+    <div class="cta-furniture__visual" aria-hidden="true">
+      <div class="cta-furniture__blur">
+        <img src={imageSrc} alt="" loading="lazy" />
+      </div>
+      <div class="cta-furniture__panel cta-furniture__panel--back" />
+      <div class="cta-furniture__panel cta-furniture__panel--front" />
+      <div class="cta-furniture__photo">
+        <img src={imageSrc} alt="" loading="lazy" data-cta-parallax-img />
+      </div>
+    </div>
+
+    <div class="cta-furniture__content">
+      <div class="cta-furniture__copy">
+        <p class="cta-furniture__eyebrow">{eyebrow}</p>
+        <h2 class="cta-furniture__headline" id="cta-furniture-title">{section.headline}</h2>
+        {section.subheadline && <p class="cta-furniture__sub">{section.subheadline}</p>}
+      </div>
+      {section.buttons && section.buttons.length > 0 && (
+        <div class="cta-furniture__actions">
+          {section.buttons.map((btn) => (
+            <Button
+              href={localizeHref(btn.href)}
+              variant={btn.variant ?? 'primary'}
+              size={btn.size ?? 'lg'}
+            >
+              {btn.label}
+            </Button>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<script>
+  function initCtaSection(section: HTMLElement) {
+    if (section.dataset.initialized === 'true') return;
+    section.dataset.initialized = 'true';
+
+    const img = section.querySelector('[data-cta-parallax-img]') as HTMLElement | null;
+    const photo = section.querySelector('.cta-furniture__photo') as HTMLElement | null;
+    if (!img || !photo) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let rafId = 0;
+    const factor = 0.1;
+
+    function updateParallax() {
+      rafId = 0;
+      const rect = section.getBoundingClientRect();
+      const viewMid = window.innerHeight * 0.5;
+      const sectionMid = rect.top + rect.height * 0.5;
+      const centerOffset = sectionMid - viewMid;
+      const maxY = photo!.offsetHeight * 0.22;
+      const y = Math.max(-maxY, Math.min(maxY, centerOffset * -factor));
+      img!.style.setProperty('--cta-parallax-y', `${y}px`);
+    }
+
+    function onScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(updateParallax);
+    }
+
+    updateParallax();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  }
+
+  document.querySelectorAll('[data-cta-section]').forEach((section) => {
+    initCtaSection(section as HTMLElement);
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('[data-cta-section]').forEach((section) => {
+      initCtaSection(section as HTMLElement);
+    });
+  });
+</script>

@@ -1,0 +1,14 @@
+{
+  "slug": "velvet-tub-chair",
+  "sku": "SF-004",
+  "collection": "soft-furnishings",
+  "title": "Velvet Tub Chair",
+  "description": "Channel-tufted olive velvet armchair with a wraparound silhouette and black metal legs.",
+  "price": 549,
+  "images": ["/assets/products/soft-furnishings/velvet-tub-chair.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["soft-furnishings"],
+  "inStock": true,
+  "featured": true,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

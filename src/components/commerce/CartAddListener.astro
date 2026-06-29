@@ -1,0 +1,48 @@
+---
+import { ui } from '../../i18n/ui';
+---
+
+<script define:vars={{ addedLabel: ui.addedToCart }}>
+  function initCartAddListener() {
+    if (document.documentElement.dataset.cartAddInit === 'true') return;
+    document.documentElement.dataset.cartAddInit = 'true';
+
+    document.addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-add-to-cart]');
+      if (!btn || btn.hasAttribute('disabled')) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      window.dispatchEvent(
+        new CustomEvent('cart:add', {
+          detail: {
+            slug: btn.dataset.productSlug,
+            title: btn.dataset.productTitle,
+            price: Number(btn.dataset.productPrice),
+            image: btn.dataset.productImage,
+            variantId: btn.dataset.variantId ?? 'default',
+            quantity: 1,
+          },
+        }),
+      );
+
+      if (btn.classList.contains('product-detail__add-btn')) {
+        const original = btn.textContent;
+        btn.textContent = addedLabel;
+        btn.classList.add('is-added');
+        window.setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('is-added');
+        }, 1800);
+        return;
+      }
+
+      btn.classList.add('is-added');
+      window.setTimeout(() => btn.classList.remove('is-added'), 600);
+    });
+  }
+
+  initCartAddListener();
+  document.addEventListener('astro:page-load', initCartAddListener);
+</script>

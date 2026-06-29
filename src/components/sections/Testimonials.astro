@@ -1,0 +1,187 @@
+---
+import type { TestimonialsSection } from '../../types/sections';
+import IconButton from '../ui/IconButton.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import StarRating from '../ui/StarRating.astro';
+
+interface Props {
+  section: TestimonialsSection;
+}
+
+const { section } = Astro.props;
+const loopItems = [0, 1, 2].flatMap((cloneSet) =>
+  section.items.map((item) => ({ ...item, cloneSet }))
+);
+---
+
+<section
+    class="testimonials-furniture"
+    aria-labelledby="testimonials-title"
+    data-testimonials="testimonials"
+    data-original-count={section.items.length}
+  >
+    <div class="testimonials-furniture__header">
+      <Eyebrow class="testimonials-furniture__eyebrow">{section.eyebrow ?? 'Testimonials'}</Eyebrow>
+      <h2 class="testimonials-furniture__headline" id="testimonials-title">
+        {section.headline ?? 'Our Client Reviews'}
+      </h2>
+    </div>
+
+    <div class="testimonials-furniture__carousel">
+      <IconButton
+        class="testimonials-furniture__nav-btn testimonials-furniture__nav-btn--prev"
+        direction="prev"
+        aria-label="Previous reviews"
+        data-testimonials-prev
+      >
+        <img src="/assets/figma/arrow-carousel-gold.svg" alt="" width="26" height="26" />
+      </IconButton>
+
+      <div class="testimonials-furniture__track-outer">
+        <div class="testimonials-furniture__track" data-testimonials-track>
+          {loopItems.map((item) => {
+            const rating = item.rating ?? 5;
+            const image = item.image ?? '/assets/testimonials/interior-01.jpg';
+            const avatar = item.avatar ?? '/assets/testimonials/avatar-01.jpg';
+            return (
+              <article class="testimonials-furniture__card" data-clone-set={item.cloneSet}>
+                <div class="testimonials-furniture__card-bg" aria-hidden="true">
+                  <div class="testimonials-furniture__card-blur">
+                    <img src={image} alt="" loading="lazy" />
+                  </div>
+                  <div class="testimonials-furniture__card-photo">
+                    <img src={image} alt="" loading="lazy" />
+                  </div>
+                </div>
+                <div class="testimonials-furniture__card-content">
+                  <img class="testimonials-furniture__bubble" src="/assets/figma/testimonial-bubble.svg" alt="" />
+                  <div class="testimonials-furniture__card-inner">
+                    <div class="testimonials-furniture__avatar">
+                      <span class="testimonials-furniture__avatar-glow" aria-hidden="true" />
+                      <img src={avatar} alt="" width="50" height="50" loading="lazy" />
+                    </div>
+                    <div class="testimonials-furniture__meta">
+                      <p class="testimonials-furniture__name">{item.author}</p>
+                      {item.role && <p class="testimonials-furniture__role">{item.role}</p>}
+                    </div>
+                    <blockquote class="testimonials-furniture__quote">"{item.quote}"</blockquote>
+                    <StarRating rating={rating} size="sm" class="testimonials-furniture__stars" />
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <IconButton
+        class="testimonials-furniture__nav-btn testimonials-furniture__nav-btn--next"
+        direction="next"
+        aria-label="Next reviews"
+        data-testimonials-next
+      >
+        <img src="/assets/figma/arrow-carousel-gold.svg" alt="" width="26" height="26" />
+      </IconButton>
+    </div>
+
+  <script>
+    function initTestimonials(root: HTMLElement) {
+      if (root.dataset.initialized === 'true') return;
+      root.dataset.initialized = 'true';
+
+      const track = root.querySelector('[data-testimonials-track]') as HTMLElement | null;
+      const trackOuter = root.querySelector('.testimonials-furniture__track-outer') as HTMLElement | null;
+      const prevBtn = root.querySelector('[data-testimonials-prev]') as HTMLButtonElement | null;
+      const nextBtn = root.querySelector('[data-testimonials-next]') as HTMLButtonElement | null;
+      if (!track || !trackOuter) return;
+
+      const originalCount = Number(root.dataset.originalCount) || 0;
+      if (originalCount === 0) return;
+
+      const gap = parseFloat(getComputedStyle(track).gap) || 39;
+      let index = originalCount;
+      let isAnimating = false;
+
+      const slideTransition = 'transform 600ms cubic-bezier(0.33, 1, 0.68, 1)';
+
+      function isMobile() {
+        return window.innerWidth < 768;
+      }
+
+      function getCards() {
+        return [...track!.querySelectorAll('.testimonials-furniture__card')] as HTMLElement[];
+      }
+
+      function stepWidth() {
+        if (isMobile()) {
+          return trackOuter.offsetWidth;
+        }
+        const cards = getCards();
+        const trackGap = parseFloat(getComputedStyle(track!).gap) || gap;
+        return (cards[0]?.offsetWidth ?? 370) + trackGap;
+      }
+
+      function updateNavState() {
+        if (!prevBtn || !nextBtn) return;
+        prevBtn.disabled = false;
+        nextBtn.disabled = false;
+      }
+
+      function applyTransform(animate: boolean) {
+        track!.style.transition = animate ? slideTransition : 'none';
+        track!.style.transform = `translateX(-${index * stepWidth()}px)`;
+        if (!animate) {
+          void track!.offsetHeight;
+        }
+        updateNavState();
+      }
+
+      function normalizeIndex() {
+        if (index >= originalCount * 2) {
+          index -= originalCount;
+          applyTransform(false);
+        } else if (index < originalCount) {
+          index += originalCount;
+          applyTransform(false);
+        }
+      }
+
+      function go(direction: 1 | -1) {
+        if (isAnimating) return;
+        isAnimating = true;
+        index += direction;
+        requestAnimationFrame(() => applyTransform(true));
+      }
+
+      function onTransitionEnd(event: TransitionEvent) {
+        if (event.target !== track || event.propertyName !== 'transform') return;
+        isAnimating = false;
+        normalizeIndex();
+      }
+
+      function onResize() {
+        index = originalCount;
+        track!.style.transition = 'none';
+        applyTransform(false);
+      }
+
+      prevBtn?.addEventListener('click', () => go(-1));
+      nextBtn?.addEventListener('click', () => go(1));
+      track.addEventListener('transitionend', onTransitionEnd);
+      window.addEventListener('resize', onResize);
+
+      index = originalCount;
+      applyTransform(false);
+    }
+
+    document.querySelectorAll('[data-testimonials]').forEach((root) => {
+      initTestimonials(root as HTMLElement);
+    });
+
+    document.addEventListener('astro:page-load', () => {
+      document.querySelectorAll('[data-testimonials]').forEach((root) => {
+        initTestimonials(root as HTMLElement);
+      });
+    });
+  </script>
+</section>

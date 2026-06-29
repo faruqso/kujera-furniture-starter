@@ -1,0 +1,16 @@
+---
+import ArrowLinkIcon from './ArrowLinkIcon.astro';
+
+interface Props {
+  href: string;
+  variant?: 'body' | 'display';
+  class?: string;
+}
+
+const { href, variant = 'display', class: className = '' } = Astro.props;
+---
+
+<a href={href} class:list={['text-link', `text-link--${variant}`, className]}>
+  <slot />
+  <ArrowLinkIcon />
+</a>

@@ -1,0 +1,25 @@
+---
+interface Props {
+  rating: number;
+  max?: number;
+  size?: 'md' | 'sm';
+  class?: string;
+}
+
+const { rating, max = 5, size = 'md', class: className = '' } = Astro.props;
+
+const filledSrc = size === 'sm' ? '/assets/figma/star-filled-sm.svg' : '/assets/figma/star-filled.svg';
+const emptySrc = size === 'sm' ? '/assets/figma/star-empty-sm.svg' : '/assets/figma/star-empty.svg';
+const dimension = size === 'sm' ? 14 : 18;
+---
+
+<div class:list={['star-rating', `star-rating--${size}`, className]} aria-label={`${rating} out of ${max} stars`}>
+  {Array.from({ length: max }).map((_, i) => (
+    <img
+      src={i < rating ? filledSrc : emptySrc}
+      alt=""
+      width={dimension}
+      height={dimension}
+    />
+  ))}
+</div>

@@ -1,0 +1,14 @@
+{
+  "slug": "knit-throw-blanket",
+  "sku": "SF-005",
+  "collection": "soft-furnishings",
+  "title": "Knit Throw Blanket",
+  "description": "Chunky cream knit throw with a textured weave and long fringe tassels.",
+  "price": 89,
+  "images": ["/assets/products/soft-furnishings/knit-throw-blanket.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["soft-furnishings"],
+  "inStock": true,
+  "featured": false,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionRenderer from '../components/SectionRenderer.astro';
+import ShopIndex from '../components/commerce/ShopIndex.astro';
+import CollectionIndex from '../components/commerce/CollectionIndex.astro';
+import ProductDetail from '../components/commerce/ProductDetail.astro';
+import { getAllAppPaths, type RouteKind } from '../lib/app-routes';
+import { getSiteSettings } from '../lib/site-settings';
+
+export async function getStaticPaths() {
+  return getAllAppPaths();
+}
+
+const route = Astro.props as RouteKind;
+const settings = await getSiteSettings();
+
+let title = settings.brandName;
+let path = '/';
+
+if (route.type === 'page') {
+  title = route.page.data.title;
+  path = route.page.data.slug === 'home' ? '/' : `/${route.page.data.slug}`;
+} else if (route.type === 'shop-index') {
+  title = 'Shop';
+  path = '/shop';
+} else if (route.type === 'collection') {
+  title = route.collection.name;
+  path = `/shop/${route.collection.slug}`;
+} else if (route.type === 'product') {
+  title = route.product.title;
+  path = `/shop/${route.product.collection}/${route.product.slug}`;
+}
+const isHomePage = route.type === 'page' && route.page.data.slug === 'home';
+const hasAboutHero =
+  route.type === 'page' &&
+  route.page.data.sections[0]?.type === 'aboutHero';
+const pageNavTransparent = isHomePage || hasAboutHero;
+---
+
+<BaseLayout
+  title={title}
+  path={path}
+  navTransparent={pageNavTransparent}
+  hideAnnouncement={isHomePage}
+>
+  {route.type === 'page' && (
+    <SectionRenderer
+      sections={route.page.data.sections}
+      currencySymbol={settings.currency.symbol}
+    />
+  )}
+  {route.type === 'shop-index' && (
+    <ShopIndex currencySymbol={settings.currency.symbol} />
+  )}
+  {route.type === 'collection' && (
+    <CollectionIndex
+      collection={route.collection}
+      currencySymbol={settings.currency.symbol}
+    />
+  )}
+  {route.type === 'product' && (
+    <ProductDetail
+      product={route.product}
+      currencySymbol={settings.currency.symbol}
+    />
+  )}
+</BaseLayout>

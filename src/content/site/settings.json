@@ -1,0 +1,38 @@
+{
+  "brandName": "kujera",
+  "tagline": "Sleek, modern furniture for contemporary living",
+  "footerAbout": "The advantage of hiring a workspace with us is that givees you comfortable service and all-around facilities.",
+  "currency": { "code": "USD", "symbol": "$" },
+  "navLinks": [
+    { "label": "Shop", "href": "/shop" },
+    { "label": "About Us", "href": "/about" },
+    { "label": "Contact", "href": "/contact" }
+  ],
+  "footerColumns": [
+    {
+      "title": "Categories",
+      "links": [
+        { "label": "Chairs", "href": "/shop/chair" },
+        { "label": "Beds", "href": "/shop/beds" },
+        { "label": "Soft Furnishings", "href": "/shop/soft-furnishings" },
+        { "label": "Accents", "href": "/shop/accents" }
+      ]
+    }
+  ],
+  "footerStayConnectedTitle": "Stay Connected",
+  "socialLinks": [
+    { "label": "Facebook", "href": "https://facebook.com", "icon": "facebook" },
+    { "label": "Twitter", "href": "https://twitter.com", "icon": "twitter" },
+    { "label": "Instagram", "href": "https://instagram.com", "icon": "instagram" }
+  ],
+  "legalLinks": [
+    { "label": "Terms & Conditions", "href": "/terms" },
+    { "label": "Privacy Policy", "href": "/privacy" }
+  ],
+  "seo": {
+    "titleTemplate": "%s · Kujera",
+    "defaultDescription": "Transform your space with sleek, modern furniture from Kujera.",
+    "ogImage": "/assets/hero-image.png"
+  },
+  "copyright": "Copyright © 2023"
+}

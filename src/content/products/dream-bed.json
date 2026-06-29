@@ -1,0 +1,27 @@
+{
+  "slug": "dream-bed",
+  "sku": "BED-002",
+  "collection": "beds",
+  "title": "Dream Bed",
+  "description": "Walnut frame bed with integrated nightstand ledge.",
+  "price": 949,
+  "images": [
+    "/assets/products/beds/dream-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": true,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

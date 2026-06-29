@@ -1,0 +1,66 @@
+---
+import { localizeHref } from '../lib/i18n';
+import { getSiteSettings } from '../lib/site-settings';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import CartRoot from '../components/commerce/CartRoot';
+import CartAddListener from '../components/commerce/CartAddListener.astro';
+import LenisScroll from '../components/LenisScroll.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  navTransparent?: boolean;
+  hideAnnouncement?: boolean;
+}
+
+const { title, description, path = '/', navTransparent = false, hideAnnouncement = false } = Astro.props;
+const settings = await getSiteSettings();
+
+const pageTitle = title
+  ? settings.seo.titleTemplate.replace('%s', title)
+  : settings.brandName;
+
+const pageDescription = description ?? settings.seo.defaultDescription;
+const canonical = localizeHref(path);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={new URL(canonical, Astro.site ?? 'http://localhost:4321').href} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <meta property="og:image" content={settings.seo.ogImage} />
+  </head>
+  <body class:list={[{ 'layout--hero-overlay': navTransparent }]}>
+    {settings.announcementBar && !hideAnnouncement && (
+      <div class="announcement-bar">
+        {settings.announcementBar.href ? (
+          <a href={localizeHref(settings.announcementBar.href)}>
+            {settings.announcementBar.text}
+          </a>
+        ) : (
+          settings.announcementBar.text
+        )}
+      </div>
+    )}
+    <Nav settings={settings} currentPath={path} transparent={navTransparent} />
+    <main>
+      <slot />
+    </main>
+    <Footer settings={settings} />
+    <CartRoot client:load currencySymbol={settings.currency.symbol} />
+    <CartAddListener />
+    <LenisScroll />
+  </body>
+</html>

@@ -1,0 +1,74 @@
+---
+import type { ParallaxSection } from '../../types/sections';
+
+interface Props {
+  section: ParallaxSection;
+}
+
+const { section } = Astro.props;
+const tone = section.tone ?? 'light';
+---
+
+<section class="parallax-band" data-parallax-band>
+  <div class="parallax-band__sticky" aria-hidden="true">
+    <div class="parallax-band__media">
+      <img
+        class="parallax-band__img"
+        src={section.image}
+        alt=""
+        loading="lazy"
+        data-parallax-img
+        width="2400"
+        height="1600"
+      />
+      <div class:list={['parallax-band__scrim', `parallax-band__scrim--${tone}`]} />
+    </div>
+  </div>
+
+  <div class="parallax-band__content-wrap">
+    <div class:list={['parallax-band__panel', `parallax-band__panel--${tone}`]}>
+      {section.eyebrow && <p class="parallax-band__eyebrow">{section.eyebrow}</p>}
+      <h2 class="parallax-band__headline">{section.headline}</h2>
+      <p class="parallax-band__description">{section.description}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initParallaxBands() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    document.querySelectorAll('[data-parallax-band]').forEach((band) => {
+      if (band.getAttribute('data-parallax-init') === 'true') return;
+      band.setAttribute('data-parallax-init', 'true');
+
+      const img = band.querySelector('[data-parallax-img]') as HTMLElement | null;
+      if (!img) return;
+
+      let ticking = false;
+
+      const update = () => {
+        ticking = false;
+        const rect = band.getBoundingClientRect();
+        const viewH = window.innerHeight;
+        const scrollRange = rect.height + viewH;
+        const progress = Math.min(1, Math.max(0, (viewH - rect.top) / scrollRange));
+        const offset = (progress - 0.5) * 48;
+        img.style.transform = `translate3d(0, ${offset}px, 0) scale(1.12)`;
+      };
+
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      };
+
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+    });
+  }
+
+  initParallaxBands();
+  document.addEventListener('astro:page-load', initParallaxBands);
+</script>

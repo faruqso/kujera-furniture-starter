@@ -1,0 +1,14 @@
+{
+  "slug": "velvet-throw-pillow",
+  "sku": "SF-003",
+  "collection": "soft-furnishings",
+  "title": "Velvet Throw Pillow",
+  "description": "Plush olive green velvet pillow that adds depth and color to any seating area.",
+  "price": 69,
+  "images": ["/assets/products/soft-furnishings/velvet-throw-pillow.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["soft-furnishings"],
+  "inStock": true,
+  "featured": true,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

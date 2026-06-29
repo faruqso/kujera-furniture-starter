@@ -1,0 +1,189 @@
+---
+import Price from '../ui/Price.astro';
+import { ui } from '../../i18n/ui';
+import { getCollectionBySlug, getRelatedProducts } from '../../lib/products';
+import ProductCard from './ProductCard.astro';
+import { localizeHref, formatPrice } from '../../lib/i18n';
+import type { ResolvedProduct } from '../../lib/products';
+
+interface Props {
+  product: ResolvedProduct;
+  currencySymbol?: string;
+}
+
+const { product, currencySymbol = '$' } = Astro.props;
+const collection = await getCollectionBySlug(product.collection);
+const collectionName = collection?.name ?? product.collection.replace(/-/g, ' ');
+const collectionHref = localizeHref(`/shop/${product.collection}`);
+const shopHref = localizeHref('/shop');
+const defaultVariant = product.variants?.[0]?.id ?? 'default';
+const relatedProducts = await getRelatedProducts(product, 4);
+const formattedPrice = formatPrice(product.price, currencySymbol);
+---
+
+<div class="product-detail-page">
+  <div class="container product-detail-page__inner">
+    <nav class="product-detail__breadcrumb" aria-label="Breadcrumb">
+      <a href={shopHref}>Shop</a>
+      <span class="product-detail__breadcrumb-sep" aria-hidden="true">/</span>
+      <a href={collectionHref}>{collectionName}</a>
+      <span class="product-detail__breadcrumb-sep" aria-hidden="true">/</span>
+      <span class="product-detail__breadcrumb-current" aria-current="page">{product.title}</span>
+    </nav>
+
+    <article class="product-detail" data-product-detail>
+      <div class="product-detail__gallery">
+        <div class="product-detail__gallery-frame">
+          <img src={product.images[0]} alt={product.title} />
+        </div>
+      </div>
+
+      <div class="product-detail__info">
+        <p class="product-detail__eyebrow">
+          <a href={collectionHref}>{collectionName}</a>
+        </p>
+        <h1 class="product-detail__title">{product.title}</h1>
+
+        <div class="product-detail__meta">
+          <div class="product-detail__price">
+            <Price
+              price={product.price}
+              compareAtPrice={product.compareAtPrice}
+              symbol={currencySymbol}
+              size="large"
+            />
+          </div>
+          <span class={`product-detail__stock product-detail__stock--${product.inStock ? 'in' : 'out'}`}>
+            {product.inStock ? ui.inStock : ui.outOfStock}
+          </span>
+        </div>
+
+        <p class="product-detail__desc">{product.description}</p>
+
+        {product.variants && product.variants.length > 0 && (
+          <div class="variant-picker">
+            <div class="variant-picker__label">{ui.selectVariant}</div>
+            <div class="variant-picker__options" data-variant-picker>
+              {product.variants.map((v, i) => (
+                <button
+                  type="button"
+                  class:list={['variant-option', { 'is-selected': i === 0 }]}
+                  data-variant-id={v.id}
+                >
+                  {v.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="product-detail__actions" data-product-actions>
+          <button
+            type="button"
+            class="btn btn--primary btn--lg product-detail__add-btn"
+            data-add-to-cart
+            data-product-slug={product.slug}
+            data-product-title={product.title}
+            data-product-price={product.price}
+            data-product-image={product.images[0]}
+            data-variant-id={defaultVariant}
+            disabled={!product.inStock}
+          >
+            {ui.addToCart}
+          </button>
+        </div>
+
+        {product.highlights && product.highlights.length > 0 && (
+          <ul class="product-detail__highlights">
+            {product.highlights.map((h) => <li>{h}</li>)}
+          </ul>
+        )}
+      </div>
+    </article>
+
+    {relatedProducts.length > 0 && (
+      <section class="product-related" aria-labelledby="product-related-title">
+        <div class="product-related__header">
+          <h2 class="product-related__title" id="product-related-title">{ui.youMightAlsoLike}</h2>
+          <p class="product-related__desc">Popular pairings from the same collection and beyond.</p>
+        </div>
+        <div class="product-grid product-related__grid">
+          {relatedProducts.map((related) => (
+            <ProductCard product={related} currencySymbol={currencySymbol} />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+
+  <div class="product-sticky-bar" data-product-sticky-bar aria-hidden="true">
+    <div class="product-sticky-bar__inner">
+      <div class="product-sticky-bar__info">
+        <p class="product-sticky-bar__name">{product.title}</p>
+        <p class="product-sticky-bar__price">{formattedPrice}</p>
+      </div>
+      <button
+        type="button"
+        class="btn btn--primary product-detail__add-btn product-sticky-bar__btn"
+        data-add-to-cart
+        data-product-slug={product.slug}
+        data-product-title={product.title}
+        data-product-price={product.price}
+        data-product-image={product.images[0]}
+        data-variant-id={defaultVariant}
+        disabled={!product.inStock}
+      >
+        {ui.addToCart}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initProductDetailPage() {
+    document.querySelectorAll('[data-product-detail]').forEach((root) => {
+      if (root.dataset.initialized === 'true') return;
+      root.dataset.initialized = 'true';
+
+      const page = root.closest('.product-detail-page');
+      const picker = root.querySelector('[data-variant-picker]');
+      const addBtns = page?.querySelectorAll('[data-add-to-cart]') ?? [];
+      const actions = root.querySelector('[data-product-actions]');
+      const stickyBar = page?.querySelector('[data-product-sticky-bar]');
+
+      picker?.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-variant-id]');
+        if (!btn) return;
+        picker.querySelectorAll('.variant-option').forEach((o) => o.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        addBtns.forEach((addBtn) => {
+          addBtn.dataset.variantId = btn.dataset.variantId;
+        });
+      });
+
+      if (stickyBar && actions && window.matchMedia('(max-width: 768px)').matches) {
+        const syncStickyBar = (visible) => {
+          stickyBar.classList.toggle('is-visible', visible);
+          stickyBar.setAttribute('aria-hidden', visible ? 'false' : 'true');
+        };
+
+        const observer = new IntersectionObserver(
+          ([entry]) => syncStickyBar(!entry.isIntersecting),
+          { threshold: 0, rootMargin: '0px 0px -1px 0px' },
+        );
+
+        observer.observe(actions);
+
+        const checkInitial = () => {
+          const rect = actions.getBoundingClientRect();
+          syncStickyBar(rect.bottom > window.innerHeight || rect.top > window.innerHeight);
+        };
+        checkInitial();
+        window.addEventListener('resize', checkInitial, { passive: true });
+      }
+    });
+  }
+
+  initProductDetailPage();
+  document.addEventListener('astro:page-load', initProductDetailPage);
+</script>

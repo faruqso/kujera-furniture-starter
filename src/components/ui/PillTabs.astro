@@ -1,0 +1,64 @@
+---
+export interface PillTabItem {
+  id: string;
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: PillTabItem[];
+  activeId: string;
+  ariaLabel: string;
+  mode?: 'link' | 'button';
+  align?: 'start' | 'center';
+  class?: string;
+  /** For shop category persistence */
+  dataShopTabs?: boolean;
+}
+
+const {
+  items,
+  activeId,
+  ariaLabel,
+  mode = 'link',
+  align = 'start',
+  class: className = '',
+  dataShopTabs = mode === 'link',
+} = Astro.props;
+---
+
+<div
+  class:list={['pill-tabs', align === 'center' && 'pill-tabs--center', className]}
+  role="tablist"
+  aria-label={ariaLabel}
+  data-pill-tabs
+  data-pill-tabs-mode={mode}
+  data-active-id={activeId}
+  data-shop-tabs={dataShopTabs || undefined}
+  data-active-category={dataShopTabs ? activeId : undefined}
+>
+  <span class="pill-tabs__indicator" aria-hidden="true"></span>
+  {items.map((item) =>
+    mode === 'link' ? (
+      <a
+        href={item.href}
+        class:list={['pill-tab', { 'is-active': item.id === activeId }]}
+        data-pill-tab={item.id}
+        data-category-tab={item.id}
+      >
+        {item.label}
+      </a>
+    ) : (
+      <button
+        type="button"
+        class:list={['pill-tab', { 'is-active': item.id === activeId }]}
+        role="tab"
+        aria-selected={item.id === activeId}
+        data-pill-tab={item.id}
+        data-category={item.id}
+      >
+        {item.label}
+      </button>
+    ),
+  )}
+</div>

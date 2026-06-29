@@ -1,0 +1,28 @@
+{
+  "slug": "galactic-seat",
+  "sku": "CHR-001",
+  "collection": "chair",
+  "title": "Galactic Seat",
+  "description": "Tranquil seating with sculpted curves and premium grey upholstery.",
+  "price": 499,
+  "compareAtPrice": 499,
+  "images": [
+    "/assets/products/chairs/galactic-seat.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "chair"
+  ],
+  "inStock": true,
+  "featured": true,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

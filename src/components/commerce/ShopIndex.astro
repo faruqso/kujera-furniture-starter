@@ -1,0 +1,63 @@
+---
+import ProductCard from './ProductCard.astro';
+import PillTabs from '../ui/PillTabs.astro';
+import { getAllCollections, getAllProducts } from '../../lib/products';
+import { localizeHref } from '../../lib/i18n';
+import { ui, formatUiString } from '../../i18n/ui';
+
+interface Props {
+  currencySymbol?: string;
+  activeCategory?: string;
+}
+
+const { currencySymbol = '$', activeCategory = 'all' } = Astro.props;
+const collections = await getAllCollections();
+const products = await getAllProducts();
+
+const categories = [
+  { id: 'all', label: 'All', href: localizeHref('/shop') },
+  { id: 'chair', label: 'Chair', href: localizeHref('/shop/chair') },
+  { id: 'beds', label: 'Beds', href: localizeHref('/shop/beds') },
+  { id: 'soft-furnishings', label: 'Furnishings', href: localizeHref('/shop/soft-furnishings') },
+  { id: 'accents', label: 'Accents', href: localizeHref('/shop/accents') },
+];
+---
+
+<div class="shop-page">
+  <div class="container">
+    <header class="shop-header">
+      <p class="shop-header__eyebrow">Shop</p>
+      <h1 class="shop-header__title">{ui.shopAll}</h1>
+      <p class="shop-header__desc">{formatUiString(ui.productsCount, { count: products.length })}</p>
+    </header>
+
+    <PillTabs
+      items={categories}
+      activeId={activeCategory}
+      ariaLabel="Product categories"
+      mode="link"
+      align="center"
+      class="shop-page__tabs"
+    />
+
+    <div class="collection-cards">
+      {collections.map((collection) => (
+        <a href={collection.href} class="collection-card">
+          {collection.image && <img src={collection.image} alt={collection.name} loading="lazy" />}
+          <div class="collection-card__overlay">
+            <h2 class="collection-card__name">{collection.name}</h2>
+            <p class="collection-card__desc">{collection.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="product-grid">
+      {products.map((product) => (
+        <ProductCard product={product} currencySymbol={currencySymbol} />
+      ))}
+    </div>
+  </div>
+</div>
+
+<script src="../../scripts/shop-tabs.client.ts"></script>

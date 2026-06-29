@@ -1,0 +1,34 @@
+---
+import type { AboutHeroSection } from '../../types/sections';
+
+interface Props {
+  section: AboutHeroSection;
+}
+
+const { section } = Astro.props;
+---
+
+<section class="about-hero" aria-label="About Kujera">
+  <div class="about-hero__media" aria-hidden="true">
+    <img
+      class="about-hero__img"
+      src={section.image}
+      alt=""
+      loading="eager"
+      fetchpriority="high"
+      width="2400"
+      height="1600"
+    />
+    <div class="about-hero__scrim" />
+  </div>
+
+  <div class="about-hero__content">
+    {section.eyebrow && <p class="about-hero__eyebrow">{section.eyebrow}</p>}
+    <h1 class="about-hero__headline">{section.headline}</h1>
+    {section.subheadline && <p class="about-hero__subheadline">{section.subheadline}</p>}
+  </div>
+
+  <div class="about-hero__scroll-hint" aria-hidden="true">
+    <span class="about-hero__scroll-line" />
+  </div>
+</section>

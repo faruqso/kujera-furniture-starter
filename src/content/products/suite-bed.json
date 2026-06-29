@@ -1,0 +1,28 @@
+{
+  "slug": "suite-bed",
+  "sku": "BED-010",
+  "collection": "beds",
+  "title": "Suite Bed",
+  "description": "Hotel-inspired bed with premium mattress support.",
+  "price": 1299,
+  "compareAtPrice": 1399,
+  "images": [
+    "/assets/products/beds/suite-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

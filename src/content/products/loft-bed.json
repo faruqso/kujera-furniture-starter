@@ -1,0 +1,27 @@
+{
+  "slug": "loft-bed",
+  "sku": "BED-009",
+  "collection": "beds",
+  "title": "Loft Bed",
+  "description": "Elevated frame perfect for compact bedrooms.",
+  "price": 749,
+  "images": [
+    "/assets/products/beds/loft-bed.png"
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "label": "Default"
+    }
+  ],
+  "tags": [
+    "beds"
+  ],
+  "inStock": true,
+  "featured": false,
+  "highlights": [
+    "Premium materials",
+    "Designed for modern interiors",
+    "Free delivery on orders over $500"
+  ]
+}

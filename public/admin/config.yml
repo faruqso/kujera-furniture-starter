@@ -1,0 +1,354 @@
+# Decap CMS — git-based content editor for Kujera
+# Docs: https://decapcms.org/docs/intro/
+#
+# Local editing: run `npm run cms` in one terminal and `npm run dev` in another,
+# then open http://localhost:4321/admin
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Uncomment and set your GitHub repo when deploying the admin UI:
+# backend:
+#   name: github
+#   repo: your-org/kujera
+#   branch: main
+#   base_url: https://your-netlify-or-proxy.example.com
+#   auth_endpoint: auth
+
+local_backend: true
+
+media_folder: public/assets/uploads
+public_folder: /assets/uploads
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+
+collections:
+  - name: pages
+    label: Pages
+    label_singular: Page
+    folder: src/content/pages
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: "{{title}} (/{{slug}})"
+    fields:
+      - { label: Slug, name: slug, widget: string, hint: "URL segment — use home for the homepage" }
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - label: Sections
+        name: sections
+        widget: list
+        types:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: hero }
+              - { label: Variant, name: variant, widget: select, options: [default, compact, furniture], required: false }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Subheadline, name: subheadline, widget: text, required: false }
+              - { label: Image, name: image, widget: image, required: false }
+              - { label: Search placeholder, name: searchPlaceholder, widget: string, required: false }
+              - label: Buttons
+                name: buttons
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Href, name: href, widget: string }
+                  - { label: Variant, name: variant, widget: select, options: [primary, secondary, ghost], required: false }
+                  - { label: Size, name: size, widget: select, options: [sm, md, lg], required: false }
+          - label: Why choosing us
+            name: whyChoosingUs
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: whyChoosingUs }
+              - { label: Title line 1, name: titleLine1, widget: string, required: false }
+              - { label: Title line 2, name: titleLine2, widget: string, required: false }
+              - label: Items
+                name: items
+                widget: list
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - { label: Link href, name: href, widget: string, required: false }
+                  - { label: Link label, name: linkLabel, widget: string, required: false }
+          - label: Best selling products
+            name: bestSellingProducts
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: bestSellingProducts }
+              - { label: Headline, name: headline, widget: string, required: false }
+              - { label: View all href, name: viewAllHref, widget: string, required: false }
+              - { label: Default category, name: defaultCategory, widget: string, required: false }
+              - label: Products
+                name: products
+                widget: list
+                fields:
+                  - { label: Slug, name: slug, widget: string }
+                  - { label: Category, name: category, widget: string }
+                  - { label: Label, name: label, widget: string }
+                  - { label: Name, name: name, widget: string }
+                  - { label: Price, name: price, widget: number }
+                  - { label: Rating, name: rating, widget: number, value_type: float, min: 0, max: 5 }
+                  - { label: Image, name: image, widget: image }
+          - label: Experiences
+            name: experiences
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: experiences }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: Link href, name: href, widget: string, required: false }
+              - { label: Link label, name: linkLabel, widget: string, required: false }
+          - label: Materials
+            name: materials
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: materials }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: Link href, name: href, widget: string, required: false }
+              - { label: Link label, name: linkLabel, widget: string, required: false }
+          - label: Testimonials
+            name: testimonials
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: testimonials }
+              - { label: Variant, name: variant, widget: select, options: [furniture], required: false }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string, required: false }
+              - label: Items
+                name: items
+                widget: list
+                fields:
+                  - { label: Quote, name: quote, widget: text }
+                  - { label: Author, name: author, widget: string }
+                  - { label: Role, name: role, widget: string, required: false }
+                  - { label: Image, name: image, widget: image, required: false }
+                  - { label: Avatar, name: avatar, widget: image, required: false }
+                  - { label: Rating, name: rating, widget: number, value_type: float, min: 0, max: 5, required: false }
+          - label: CTA
+            name: cta
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: cta }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Subheadline, name: subheadline, widget: text, required: false }
+              - { label: Image, name: image, widget: image, required: false }
+              - label: Buttons
+                name: buttons
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Href, name: href, widget: string }
+                  - { label: Variant, name: variant, widget: select, options: [primary, secondary, ghost], required: false }
+                  - { label: Size, name: size, widget: select, options: [sm, md, lg], required: false }
+          - label: Contact
+            name: contact
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: contact }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Subheadline, name: subheadline, widget: text, required: false }
+              - { label: Email, name: email, widget: string, required: false }
+              - { label: Phone, name: phone, widget: string, required: false }
+              - { label: Address, name: address, widget: text, required: false }
+              - { label: Hours, name: hours, widget: text, required: false }
+          - label: Rich text
+            name: richText
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: richText }
+              - { label: Content, name: content, widget: markdown }
+          - label: About hero
+            name: aboutHero
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: aboutHero }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Subheadline, name: subheadline, widget: text, required: false }
+              - { label: Image, name: image, widget: image }
+          - label: Parallax section
+            name: parallaxSection
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: parallaxSection }
+              - { label: Image, name: image, widget: image }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: Tone, name: tone, widget: select, options: [light, dark], required: false }
+          - label: About split
+            name: aboutSplit
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: aboutSplit }
+              - { label: Layout, name: layout, widget: select, options: [image-left, image-right], required: false }
+              - { label: Image, name: image, widget: image }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Description, name: description, widget: text }
+              - label: CTA button
+                name: cta
+                widget: object
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Href, name: href, widget: string }
+                  - { label: Variant, name: variant, widget: select, options: [primary, secondary, ghost], required: false }
+          - label: About gallery
+            name: aboutGallery
+            widget: object
+            fields:
+              - { label: Type, name: type, widget: hidden, default: aboutGallery }
+              - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+              - { label: Headline, name: headline, widget: string }
+              - { label: Description, name: description, widget: text, required: false }
+              - label: Images
+                name: images
+                widget: list
+                fields:
+                  - { label: Image, name: src, widget: image }
+                  - { label: Alt, name: alt, widget: string, required: false }
+
+  - name: site
+    label: Site settings
+    files:
+      - name: settings
+        label: Global settings
+        file: src/content/site/settings.json
+        fields:
+          - { label: Brand name, name: brandName, widget: string }
+          - { label: Tagline, name: tagline, widget: string }
+          - { label: Logo, name: logo, widget: image, required: false }
+          - label: Currency
+            name: currency
+            widget: object
+            fields:
+              - { label: Code, name: code, widget: select, options: [USD, EUR] }
+              - { label: Symbol, name: symbol, widget: string }
+          - label: Navigation links
+            name: navLinks
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Href, name: href, widget: string }
+          - label: Footer columns
+            name: footerColumns
+            widget: list
+            fields:
+              - { label: Title, name: title, widget: string }
+              - label: Links
+                name: links
+                widget: list
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Href, name: href, widget: string }
+          - { label: Footer about, name: footerAbout, widget: text, required: false }
+          - { label: Stay connected title, name: footerStayConnectedTitle, widget: string, required: false }
+          - label: Social links
+            name: socialLinks
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: URL, name: href, widget: string }
+              - { label: Icon, name: icon, widget: select, options: [facebook, twitter, instagram] }
+          - label: Legal links
+            name: legalLinks
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Href, name: href, widget: string }
+          - label: Announcement bar
+            name: announcementBar
+            widget: object
+            required: false
+            fields:
+              - { label: Text, name: text, widget: string }
+              - { label: Link, name: href, widget: string, required: false }
+          - label: SEO
+            name: seo
+            widget: object
+            fields:
+              - { label: Title template, name: titleTemplate, widget: string, hint: "Use %s for page title" }
+              - { label: Default description, name: defaultDescription, widget: text }
+              - { label: OG image, name: ogImage, widget: image }
+          - { label: Copyright, name: copyright, widget: string }
+
+  - name: products
+    label: Products
+    label_singular: Product
+    folder: src/content/products
+    create: true
+    slug: "{{slug}}"
+    extension: json
+    format: json
+    identifier_field: title
+    summary: "{{title}} · {{collection}}"
+    fields:
+      - { label: Slug, name: slug, widget: string }
+      - { label: SKU, name: sku, widget: string }
+      - { label: Collection, name: collection, widget: select, options: [chair, beds, soft-furnishings, accents] }
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Price, name: price, widget: number }
+      - { label: Compare at price, name: compareAtPrice, widget: number, required: false }
+      - label: Images
+        name: images
+        widget: list
+        field: { label: Image, name: image, widget: image }
+      - label: Variants
+        name: variants
+        widget: list
+        required: false
+        fields:
+          - { label: ID, name: id, widget: string }
+          - { label: Label, name: label, widget: string }
+      - label: Tags
+        name: tags
+        widget: list
+        default: []
+        field: { label: Tag, name: tag, widget: string }
+      - { label: In stock, name: inStock, widget: boolean, default: true }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - label: Highlights
+        name: highlights
+        widget: list
+        required: false
+        field: { label: Highlight, name: highlight, widget: string }
+
+  - name: collections
+    label: Collections
+    label_singular: Collection
+    folder: src/content/collections
+    create: true
+    slug: "{{slug}}"
+    extension: json
+    format: json
+    identifier_field: name
+    summary: "{{name}}"
+    fields:
+      - { label: Slug, name: slug, widget: string }
+      - { label: Name, name: name, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Image, name: image, widget: image, required: false }
+      - label: Featured product slugs
+        name: featuredProductSlugs
+        widget: list
+        required: false
+        field: { label: Slug, name: slug, widget: string }

@@ -1,0 +1,75 @@
+---
+import { localizeHref } from '../../lib/i18n';
+import { socialIcons } from '../../lib/hugeicons';
+import HugeIcon from '../ui/HugeIcon.astro';
+import type { SiteSettings } from '../../types/site';
+
+interface Props {
+  settings: SiteSettings;
+}
+
+const { settings } = Astro.props;
+
+const aboutText = settings.footerAbout ?? settings.tagline;
+const legalLinks = settings.legalLinks ?? [];
+const stayConnectedTitle = settings.footerStayConnectedTitle ?? 'Stay Connected';
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand-col">
+        <p class="site-footer__brand">{settings.brandName}</p>
+        <p class="site-footer__about">{aboutText}</p>
+      </div>
+
+      {settings.footerColumns.map((column) => (
+        <div class="site-footer__col">
+          <p class="site-footer__col-title">{column.title}</p>
+          <nav class="site-footer__links" aria-label={column.title}>
+            {column.links.map((link) => (
+              <a href={localizeHref(link.href)}>{link.label}</a>
+            ))}
+          </nav>
+        </div>
+      ))}
+
+      {settings.socialLinks && settings.socialLinks.length > 0 && (
+        <div class="site-footer__col site-footer__col--social">
+          <p class="site-footer__col-title">{stayConnectedTitle}</p>
+          <nav class="site-footer__social" aria-label={stayConnectedTitle}>
+            {settings.socialLinks.map((link) => (
+              <a href={link.href} class="site-footer__social-link">
+                <HugeIcon icon={socialIcons[link.icon]} size={20} class="site-footer__social-icon" />
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">{settings.copyright}</p>
+      {legalLinks.length > 0 && (
+        <nav class="site-footer__legal" aria-label="Legal">
+          {legalLinks.map((link) => (
+            <a href={localizeHref(link.href)}>{link.label}</a>
+          ))}
+        </nav>
+      )}
+    </div>
+
+    <p class="site-footer__credits">
+      Design inspired by Kretya Studio · Developed by{' '}
+      <a
+        href="https://www.linkedin.com/in/faruq-so/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Faruq So
+      </a>
+      {' '}· Made with love using Cursor
+    </p>
+  </div>
+</footer>

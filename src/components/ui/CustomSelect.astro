@@ -1,0 +1,83 @@
+---
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  options: Option[];
+  value?: string;
+  prefix?: string;
+  placeholder?: string;
+  name?: string;
+  required?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const {
+  options,
+  value = '',
+  prefix,
+  placeholder,
+  name,
+  required = false,
+  id,
+  class: className = '',
+} = Astro.props;
+
+const selected = value ? options.find((option) => option.value === value) : undefined;
+const selectId = id ?? (name ? `custom-select-${name}` : 'custom-select');
+const displayLabel = selected?.label ?? placeholder ?? options[0]?.label ?? '';
+---
+
+<div
+  class:list={['custom-select', className]}
+  data-custom-select
+  data-custom-select-value={selected?.value ?? ''}
+>
+  {name && (
+    <input
+      type="hidden"
+      name={name}
+      value={selected?.value ?? ''}
+      data-custom-select-input
+      required={required || undefined}
+    />
+  )}
+
+  <button
+    type="button"
+    class="custom-select__trigger"
+    id={selectId}
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-labelledby={`${selectId}-label`}
+  >
+    <span class="custom-select__trigger-text" id={`${selectId}-label`}>
+      {prefix && <span class="custom-select__prefix">{prefix}</span>}
+      <span class="custom-select__value" data-custom-select-label class:list={[{ 'custom-select__value--placeholder': !selected }]}>
+        {displayLabel}
+      </span>
+    </span>
+    <svg class="custom-select__chevron" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+      <path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+
+  <ul class="custom-select__menu" role="listbox" aria-labelledby={`${selectId}-label`} hidden>
+    {options.map((option) => (
+      <li
+        role="option"
+        class:list={['custom-select__option', { 'is-selected': option.value === selected?.value }]}
+        data-custom-select-option={option.value}
+        aria-selected={option.value === selected?.value}
+      >
+        <span class="custom-select__check" aria-hidden="true">
+          {option.value === selected?.value ? '✓' : ''}
+        </span>
+        <span>{option.label}</span>
+      </li>
+    ))}
+  </ul>
+</div>

@@ -1,0 +1,33 @@
+---
+import { localizeHref } from '../../lib/i18n';
+import SplitHeading from '../ui/SplitHeading.astro';
+import TextLink from '../ui/TextLink.astro';
+import type { WhyChoosingUsSection } from '../../types/sections';
+interface Props {
+  section: WhyChoosingUsSection;
+}
+
+const { section } = Astro.props;
+const line1 = section.titleLine1 ?? 'Why';
+const line2 = section.titleLine2 ?? 'Choosing Us';
+---
+
+<section class="why-choosing" aria-labelledby="why-choosing-title">
+  <SplitHeading id="why-choosing-title" class="why-choosing__title split-heading">
+    <span>{line1}</span>
+    <span>{line2}</span>
+  </SplitHeading>
+  <div class="why-choosing__grid">
+    {section.items.map((item) => (
+      <article class="why-choosing__item">
+        <div class="why-choosing__item-text">
+          <h3 class="why-choosing__item-title">{item.title}</h3>
+          <p class="why-choosing__item-desc">{item.description}</p>
+        </div>
+        <TextLink href={localizeHref(item.href ?? '/about')} variant="body">
+          {item.linkLabel ?? 'More Info'}
+        </TextLink>
+      </article>
+    ))}
+  </div>
+</section>

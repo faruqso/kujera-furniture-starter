@@ -1,0 +1,33 @@
+---
+interface Props {
+  price: number;
+  compareAtPrice?: number;
+  symbol?: string;
+  size?: 'default' | 'large';
+  class?: string;
+}
+
+const {
+  price,
+  compareAtPrice,
+  symbol = '$',
+  size = 'default',
+  class: className = '',
+} = Astro.props;
+
+import { formatPrice } from '../../lib/i18n';
+
+const onSale = compareAtPrice != null && compareAtPrice > price;
+const sizeClass = size === 'large' ? 'price--large' : '';
+---
+
+<span class={`product-card__price ${className}`.trim()}>
+  <span class={`price ${onSale ? 'price--sale' : ''} ${sizeClass}`.trim()}>
+    {formatPrice(price, symbol)}
+  </span>
+  {onSale && compareAtPrice != null && (
+    <span class="price price--compare">
+      {formatPrice(compareAtPrice, symbol)}
+    </span>
+  )}
+</span>

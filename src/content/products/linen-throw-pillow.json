@@ -1,0 +1,14 @@
+{
+  "slug": "linen-throw-pillow",
+  "sku": "SF-002",
+  "collection": "soft-furnishings",
+  "title": "Linen Throw Pillow",
+  "description": "Square accent pillow in a natural woven linen blend with a relaxed, lived-in texture.",
+  "price": 59,
+  "images": ["/assets/products/soft-furnishings/linen-throw-pillow.png"],
+  "variants": [{ "id": "default", "label": "Default" }],
+  "tags": ["soft-furnishings"],
+  "inStock": true,
+  "featured": true,
+  "highlights": ["Premium materials", "Designed for modern interiors", "Free delivery on orders over $500"]
+}

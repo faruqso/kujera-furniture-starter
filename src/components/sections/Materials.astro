@@ -1,0 +1,128 @@
+---
+import { localizeHref } from '../../lib/i18n';
+import Eyebrow from '../ui/Eyebrow.astro';
+import TextLink from '../ui/TextLink.astro';
+import type { MaterialsSection } from '../../types/sections';
+interface Props {
+  section: MaterialsSection;
+}
+
+const { section } = Astro.props;
+const eyebrow = section.eyebrow ?? 'Materials';
+
+const IMAGES = {
+  top: '/assets/materials/top.jpg',
+  bottom: '/assets/materials/bottom.jpg',
+  hero: '/assets/materials/hero.jpg',
+} as const;
+---
+
+<section class="materials" aria-labelledby="materials-title" data-materials-section>
+  <div class="materials__content">
+    <div class="materials__copy">
+      <Eyebrow class="materials__eyebrow">{eyebrow}</Eyebrow>
+      <h2 class="materials__headline" id="materials-title">{section.headline}</h2>
+      <p class="materials__desc">{section.description}</p>
+    </div>
+    <TextLink href={localizeHref(section.href ?? '/about')} class="materials__link">
+      {section.linkLabel ?? 'More Info'}
+    </TextLink>
+  </div>
+
+  <div class="materials__visual-scale">
+    <div class="materials__visual" aria-hidden="true">
+      <div class="materials__stack materials__stack--top" data-materials-item data-parallax-y="0.045" data-parallax-x="-0.018">
+        <div class="materials__stack-blur materials__stack-blur--top">
+          <img src={IMAGES.top} alt="" />
+        </div>
+        <div class="materials__stack-photo materials__stack-photo--top materials__stack-photo--landscape">
+          <img src={IMAGES.top} alt="" data-materials-parallax-img data-parallax-factor="0.09" />
+        </div>
+      </div>
+
+      <div class="materials__stack materials__stack--bottom" data-materials-item data-parallax-y="-0.04" data-parallax-x="0.015">
+        <div class="materials__stack-blur materials__stack-blur--bottom">
+          <img src={IMAGES.bottom} alt="" />
+        </div>
+        <div class="materials__stack-photo materials__stack-photo--bottom materials__stack-photo--portrait">
+          <img src={IMAGES.bottom} alt="" data-materials-parallax-img data-parallax-factor="0.11" />
+        </div>
+      </div>
+
+      <div class="materials__hero" data-materials-item data-parallax-y="0.03" data-parallax-x="0.022">
+        <div class="materials__hero-blur">
+          <img src={IMAGES.hero} alt="" />
+        </div>
+        <div class="materials__hero-panel" />
+        <div class="materials__hero-photo materials__stack-photo--landscape">
+          <img src={IMAGES.hero} alt="" data-materials-parallax-img data-parallax-factor="0.1" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initMaterials(section: HTMLElement) {
+    if (section.dataset.initialized === 'true') return;
+    section.dataset.initialized = 'true';
+
+    const items = [...section.querySelectorAll('[data-materials-item]')] as HTMLElement[];
+    const parallaxImgs = [...section.querySelectorAll('[data-materials-parallax-img]')] as HTMLElement[];
+    if (!items.length) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+    const motionScale = isMobile ? 0.8 : 1;
+
+    let rafId = 0;
+
+    function updateParallax() {
+      rafId = 0;
+      const rect = section.getBoundingClientRect();
+      const viewMid = window.innerHeight * 0.5;
+      const sectionMid = rect.top + rect.height * 0.5;
+      const centerOffset = sectionMid - viewMid;
+
+      items.forEach((item) => {
+        const yFactor = Number(item.dataset.parallaxY ?? 0) * motionScale;
+        const xFactor = Number(item.dataset.parallaxX ?? 0) * motionScale;
+        const y = centerOffset * -yFactor;
+        const x = centerOffset * -xFactor;
+        item.style.setProperty('--materials-parallax-x', `${x}px`);
+        item.style.setProperty('--materials-parallax-y', `${y}px`);
+      });
+
+      parallaxImgs.forEach((img) => {
+        const frame = img.closest('.materials__stack-photo, .materials__hero-photo') as HTMLElement | null;
+        if (!frame) return;
+        const factor = Number(img.dataset.parallaxFactor ?? 0.1) * motionScale;
+        const maxY = frame.offsetHeight * 0.22;
+        const y = Math.max(-maxY, Math.min(maxY, centerOffset * -factor));
+        img.style.setProperty('--materials-inner-parallax-y', `${y}px`);
+      });
+    }
+
+    function onScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(updateParallax);
+    }
+
+    updateParallax();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('app:scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+  }
+
+  document.querySelectorAll('[data-materials-section]').forEach((section) => {
+    initMaterials(section as HTMLElement);
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('[data-materials-section]').forEach((section) => {
+      initMaterials(section as HTMLElement);
+    });
+  });
+</script>

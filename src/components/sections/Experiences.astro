@@ -1,0 +1,84 @@
+---
+import { localizeHref } from '../../lib/i18n';
+import Eyebrow from '../ui/Eyebrow.astro';
+import TextLink from '../ui/TextLink.astro';
+import type { ExperiencesSection } from '../../types/sections';
+interface Props {
+  section: ExperiencesSection;
+}
+
+const { section } = Astro.props;
+const eyebrow = section.eyebrow ?? 'experiences';
+---
+
+<section class="experiences" aria-labelledby="experiences-title" data-experiences-section>
+  <div class="experiences__visual" aria-hidden="true">
+    <div class="experiences__blur">
+      <img src="/assets/experience-section.jpg" alt="" />
+    </div>
+    <div class="experiences__panel experiences__panel--back" />
+    <div class="experiences__panel experiences__panel--front" />
+    <div class="experiences__photo">
+      <img src="/assets/experience-section.jpg" alt="" data-experiences-parallax-img />
+    </div>
+  </div>
+
+  <div class="experiences__content">
+    <div class="experiences__copy">
+      <Eyebrow class="experiences__eyebrow">{eyebrow}</Eyebrow>
+      <h2 class="experiences__headline" id="experiences-title">{section.headline}</h2>
+      <p class="experiences__desc">{section.description}</p>
+    </div>
+    <TextLink href={localizeHref(section.href ?? '/about')} class="experiences__link">
+      {section.linkLabel ?? 'More Info'}
+    </TextLink>
+  </div>
+</section>
+
+<script>
+  function initExperiences(section: HTMLElement) {
+    if (section.dataset.initialized === 'true') return;
+    section.dataset.initialized = 'true';
+
+    const img = section.querySelector('[data-experiences-parallax-img]') as HTMLElement | null;
+    const photo = section.querySelector('.experiences__photo') as HTMLElement | null;
+    if (!img || !photo) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let rafId = 0;
+    const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+    const factor = isMobile ? 0.085 : 0.1;
+
+    function updateParallax() {
+      rafId = 0;
+      const rect = section.getBoundingClientRect();
+      const viewMid = window.innerHeight * 0.5;
+      const sectionMid = rect.top + rect.height * 0.5;
+      const centerOffset = sectionMid - viewMid;
+      const maxY = photo!.offsetHeight * 0.22;
+      const y = Math.max(-maxY, Math.min(maxY, centerOffset * -factor));
+      img!.style.setProperty('--experiences-parallax-y', `${y}px`);
+    }
+
+    function onScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(updateParallax);
+    }
+
+    updateParallax();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('app:scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+  }
+
+  document.querySelectorAll('[data-experiences-section]').forEach((section) => {
+    initExperiences(section as HTMLElement);
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('[data-experiences-section]').forEach((section) => {
+      initExperiences(section as HTMLElement);
+    });
+  });
+</script>

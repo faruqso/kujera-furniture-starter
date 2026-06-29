@@ -1,0 +1,61 @@
+---
+import Button from '../ui/Button.astro';
+import SearchBar from '../ui/SearchBar.astro';
+import { localizeHref } from '../../lib/i18n';
+import type { HeroSection } from '../../types/sections';
+
+interface Props {
+  section: HeroSection;
+}
+
+const { section } = Astro.props;
+const isFurniture = section.variant === 'furniture' || Boolean(section.searchPlaceholder);
+const imageSrc = section.image ?? '/assets/hero-image.png';
+---
+
+{isFurniture ? (
+  <section class="hero--furniture" aria-label="Hero">
+    <div class="hero--furniture__media" aria-hidden="true">
+      <img src={imageSrc} alt="" loading="eager" fetchpriority="high" />
+      <div class="hero--furniture__gradient" />
+    </div>
+
+    <div class="hero--furniture__content">
+      <h1 class="hero--furniture__headline">{section.headline}</h1>
+      {section.subheadline && (
+        <p class="hero--furniture__subheadline">{section.subheadline}</p>
+      )}
+      {section.searchPlaceholder && (
+        <SearchBar
+          action={localizeHref('/shop')}
+          placeholder={section.searchPlaceholder}
+          class="hero--furniture__search"
+        />
+      )}
+    </div>
+  </section>
+) : (
+  <section class="hero section">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        {section.eyebrow && <p class="section__eyebrow">{section.eyebrow}</p>}
+        <h1 class="hero__headline">{section.headline}</h1>
+        {section.subheadline && <p class="hero__subheadline">{section.subheadline}</p>}
+        {section.buttons && section.buttons.length > 0 && (
+          <div class="hero__actions">
+            {section.buttons.map((btn) => (
+              <Button href={localizeHref(btn.href)} variant={btn.variant ?? 'primary'} size={btn.size ?? 'lg'}>
+                {btn.label}
+              </Button>
+            ))}
+          </div>
+        )}
+      </div>
+      {section.image && (
+        <div class="hero__image">
+          <img src={section.image} alt="" loading="eager" />
+        </div>
+      )}
+    </div>
+  </section>
+)}
