@@ -32,6 +32,7 @@ const canonical = localizeHref(path);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <link rel="canonical" href={new URL(canonical, Astro.site ?? 'http://localhost:4321').href} />

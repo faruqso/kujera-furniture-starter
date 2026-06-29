@@ -25,5 +25,5 @@ export const siteDefaults: SiteSettings = {
     defaultDescription: 'Transform your space with sleek, modern furniture from Kujera.',
     ogImage: '/assets/hero-image.png',
   },
-  copyright: 'Copyright © 2023',
+  copyright: 'Copyright © {year}',
 };

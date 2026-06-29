@@ -10,6 +10,11 @@ interface Props {
 
 const { settings } = Astro.props;
 
+const year = new Date().getFullYear();
+const copyright = settings.copyright
+  .replace(/\{year\}/gi, String(year))
+  .replace(/(©\s*)\d{4}/, `$1${year}`);
+
 const aboutText = settings.footerAbout ?? settings.tagline;
 const legalLinks = settings.legalLinks ?? [];
 const stayConnectedTitle = settings.footerStayConnectedTitle ?? 'Stay Connected';
@@ -50,7 +55,7 @@ const stayConnectedTitle = settings.footerStayConnectedTitle ?? 'Stay Connected'
     </div>
 
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">{settings.copyright}</p>
+      <p class="site-footer__copyright">{copyright}</p>
       {legalLinks.length > 0 && (
         <nav class="site-footer__legal" aria-label="Legal">
           {legalLinks.map((link) => (
