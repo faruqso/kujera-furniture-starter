@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Customization guide
+    url: https://github.com/faruqso/kujera-furniture-starter/blob/main/docs/customization.md
+    about: How to fork, rebrand, and deploy your own storefront
+  - name: Security policy
+    url: https://github.com/faruqso/kujera-furniture-starter/blob/main/SECURITY.md
+    about: Report vulnerabilities privately — do not use public issues

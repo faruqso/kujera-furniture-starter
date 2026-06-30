@@ -1,0 +1,57 @@
+name: Bug report
+description: Report something broken in the starter or demo site
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Kujera Furniture Starter. Please search [existing issues](https://github.com/faruqso/kujera-furniture-starter/issues) first.
+
+        **Security bugs:** use [private advisories](https://github.com/faruqso/kujera-furniture-starter/security/advisories/new) instead — see [SECURITY.md](https://github.com/faruqso/kujera-furniture-starter/blob/main/SECURITY.md).
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Clear description of the bug
+      placeholder: The shop collection page shows 0 products after…
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps to reproduce the behavior
+      placeholder: |
+        1. npm install && npm run dev
+        2. Open /shop/chair
+        3. See error…
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version, browser if relevant
+      placeholder: macOS, Node 22, Chrome 131
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: I am reporting against the upstream starter (not only my fork/customizations)
+          required: true

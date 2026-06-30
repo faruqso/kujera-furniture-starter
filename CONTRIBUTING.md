@@ -39,4 +39,6 @@ Thank you for helping improve **Kujera Furniture Starter**!
 
 ## Questions?
 
-Open an issue on GitHub — we're happy to help.
+Open an issue using the [bug](https://github.com/faruqso/kujera-furniture-starter/issues/new?template=bug_report.yml) or [feature](https://github.com/faruqso/kujera-furniture-starter/issues/new?template=feature_request.yml) template.
+
+For security concerns, see [SECURITY.md](../SECURITY.md) — do not file public issues.

@@ -85,6 +85,10 @@ Import the repo on [Vercel](https://vercel.com/new). Astro is auto-detected. Set
 
 MIT — see [LICENSE](LICENSE). Use freely for personal and commercial projects.
 
+## Security
+
+See [SECURITY.md](SECURITY.md) to report vulnerabilities privately.
+
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md). Use the [issue templates](https://github.com/faruqso/kujera-furniture-starter/issues/new/choose) for bugs and feature requests.
