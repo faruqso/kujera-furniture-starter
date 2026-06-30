@@ -228,10 +228,21 @@
 
 @media (max-width: 768px) {
   .pill-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
     width: 100%;
+    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+  }
+
+  .pill-tabs--center {
+    width: 100%;
+    margin-inline: 0;
+    justify-content: flex-start;
   }
 
   .pill-tabs::-webkit-scrollbar {
@@ -240,6 +251,11 @@
 
   .pill-tabs__indicator {
     display: none;
+  }
+
+  .pill-tab {
+    flex-shrink: 0;
+    min-width: auto;
   }
 
   .pill-tab.is-active {

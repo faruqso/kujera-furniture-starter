@@ -18,7 +18,7 @@ const categories = section.categories ?? [
   { id: 'accents', label: 'Accents' },
 ];
 const defaultCategory = section.defaultCategory ?? categories[0]?.id ?? 'chair';
-const headline = section.headline ?? 'Best Selling Product';
+const headline = section.headline ?? 'Best Selling Products';
 const viewAllHref = localizeHref(section.viewAllHref ?? '/shop');
 ---
 
@@ -30,6 +30,7 @@ const viewAllHref = localizeHref(section.viewAllHref ?? '/shop');
       activeId={defaultCategory}
       ariaLabel="Product categories"
       mode="button"
+      align="center"
       class="best-selling__tabs"
     />
   </div>

@@ -255,15 +255,23 @@ const navGroups = [
         <h2 class="ds-panel__title">Pill tabs</h2>
         <p class="ds-panel__desc">
           One component — customize with <code>align</code> (start, center) and <code>mode</code> (link, button).
-          Shop pages use center + link; Best Selling uses start + button.
+          Shop pages use center + link; Best Selling uses center + button. On viewports ≤768px, tabs scroll
+          horizontally instead of shrinking (hidden scrollbar, active pill uses a solid background).
         </p>
       </div>
-      <div class="ds-stage">
+      <div class="ds-stage ds-stage--stack">
         <PillTabs
           items={pillTabItems}
           activeId="chair"
-          ariaLabel="Product categories"
+          ariaLabel="Product categories (link mode)"
           mode="link"
+          align="center"
+        />
+        <PillTabs
+          items={pillTabItems.map(({ id, label }) => ({ id, label }))}
+          activeId="chair"
+          ariaLabel="Product categories (button mode)"
+          mode="button"
           align="center"
         />
       </div>
