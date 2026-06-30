@@ -10,7 +10,7 @@ export const prerender = true;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Kujera Content</title>
-    <!-- Ensure relative assets resolve under /admin/ even when the URL has no trailing slash -->
+    <!-- Relative config.yml resolves to /admin/config.yml (not site root) -->
     <base href="/admin/" />
     <script is:inline>
       if (window.location.pathname === '/admin') {
@@ -19,10 +19,6 @@ export const prerender = true;
     </script>
   </head>
   <body>
-    <script is:inline>window.CMS_MANUAL_INIT = true;</script>
-    <script src="https://unpkg.com/decap-cms@^3.8.0/dist/decap-cms.js"></script>
-    <script is:inline>
-      window.CMS.init({ config_url: '/admin/config.yml' });
-    </script>
+    <script is:inline src="https://unpkg.com/decap-cms@^3.8.0/dist/decap-cms.js"></script>
   </body>
 </html>
