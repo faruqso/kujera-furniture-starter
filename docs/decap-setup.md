@@ -2,6 +2,26 @@
 
 Kujera uses [Decap CMS](https://decapcms.org/) (formerly Netlify CMS) for git-based content editing.
 
+Each person who forks this template connects Decap to **their own GitHub repo**. You do not share credentials with the original template author.
+
+## Browse-only demo (default on live sites)
+
+Out of the box, `/admin` on a deployed site is **browse-only**:
+
+- A yellow banner explains that saving requires your own fork
+- You can browse all collections and open any entry
+- Save, publish, and delete actions redirect to `/admin/get-started` with setup instructions
+
+The live demo reads content through a read-only file API — no GitHub login required to explore.
+
+When **you** are ready to save from the browser on your own fork:
+
+1. Update `PUBLIC_DECAP_REPO` to your `username/repo` (or edit `getDecapRepo()` in `src/lib/decap-public.ts`)
+2. Configure GitHub OAuth on your host (see below)
+3. Set `PUBLIC_DECAP_EDIT_ENABLED=true` in `.env` and on your host (Vercel, etc.)
+
+Without `PUBLIC_DECAP_EDIT_ENABLED=true`, even valid GitHub credentials stay in browse-only mode.
+
 ## Local editing (no auth)
 
 ```bash
@@ -19,20 +39,14 @@ http://localhost:4321/admin
 
 ## Production editing
 
-The admin UI at `/admin` loads on any deployment, but **saves require a GitHub backend**.
+The admin UI at `/admin` loads on any deployment, but **saves require a GitHub backend** and `PUBLIC_DECAP_EDIT_ENABLED=true`.
 
-### 1. Update `public/admin/config.yml`
+### 1. Point Decap at your repo
 
-Replace the placeholder backend with your fork:
+Set the env var on your host:
 
-```yaml
-backend:
-  name: github
-  repo: your-username/your-fork
-  branch: main
-
-# Remove or comment out local_backend for production
-# local_backend: true
+```bash
+PUBLIC_DECAP_REPO=your-username/your-fork
 ```
 
 ### 2. Choose an auth method
@@ -47,9 +61,19 @@ Decap needs OAuth to write to GitHub. Common options:
 
 See [Decap backends overview](https://decapcms.org/docs/backends-overview/).
 
-### 3. Collections
+### 3. Enable saves
 
-Collections are pre-configured for:
+Add to your host environment variables:
+
+```bash
+PUBLIC_DECAP_EDIT_ENABLED=true
+```
+
+Redeploy after changing env vars so `/admin/config.yml` serves the GitHub backend instead of the browse-only proxy.
+
+### 4. Collections
+
+Collections are defined in `src/cms/decap-collections.yml` and served dynamically at `/admin/config.yml`:
 
 - **Pages** — `src/content/pages/*.md`
 - **Site settings** — `src/content/site/settings.json`
@@ -62,3 +86,4 @@ Media uploads go to `public/assets/uploads/`.
 
 - After CMS edits in production, your host rebuilds from the new git commit (enable auto-deploy on push).
 - For team workflows, use branch previews or restrict `/admin` behind auth at the CDN level.
+- Collection schemas live in `src/cms/decap-collections.yml`; backend settings are generated in `src/lib/decap-config.ts`.

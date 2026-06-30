@@ -1,6 +1,25 @@
 import { bindTabIndicator, positionTabIndicator } from './tab-indicator';
 
 const STORAGE_KEY = 'kujera-shop-category';
+const MOBILE_PILL_TABS_MQ = '(max-width: 768px)';
+
+function pillTabScrollBehavior(): ScrollBehavior {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
+/** Center the active pill in the horizontal scroll track on small screens. */
+export function revealPillTab(tabsRoot: HTMLElement, tab: HTMLElement) {
+  if (!window.matchMedia(MOBILE_PILL_TABS_MQ).matches) return;
+  if (tabsRoot.scrollWidth <= tabsRoot.clientWidth) return;
+
+  const maxScroll = tabsRoot.scrollWidth - tabsRoot.clientWidth;
+  const target = tab.offsetLeft - (tabsRoot.clientWidth - tab.offsetWidth) / 2;
+
+  tabsRoot.scrollTo({
+    left: Math.max(0, Math.min(target, maxScroll)),
+    behavior: pillTabScrollBehavior(),
+  });
+}
 
 export function initPillTabsLinkMode() {
   document.querySelectorAll('[data-pill-tabs][data-pill-tabs-mode="link"]').forEach((tabsRoot) => {
@@ -40,8 +59,11 @@ export function initPillTabsLinkMode() {
       tab.addEventListener('click', () => {
         const id = tab.dataset.pillTab ?? 'all';
         sessionStorage.setItem(STORAGE_KEY, id);
+        revealPillTab(tabsRoot, tab);
       });
     });
+
+    requestAnimationFrame(() => revealPillTab(tabsRoot, activeTab));
 
     const update = () => {
       const current = tabs.find((tab) => tab.classList.contains('is-active')) ?? activeTab;
@@ -68,19 +90,27 @@ export function initPillTabsButtonMode(root: HTMLElement) {
 
   const { indicator } = bound;
 
-  function setActive(category: string) {
+  function setActive(category: string, scrollTab?: HTMLElement) {
     tabs.forEach((tab) => {
       const isActive = tab.dataset.category === category;
       tab.classList.toggle('is-active', isActive);
       tab.setAttribute('aria-selected', String(isActive));
-      if (isActive) positionTabIndicator(indicator, tab, true);
+      if (isActive) {
+        positionTabIndicator(indicator, tab, true);
+        if (scrollTab) revealPillTab(root, scrollTab);
+      }
     });
   }
 
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
-      if (tab.dataset.category) setActive(tab.dataset.category);
+      if (tab.dataset.category) setActive(tab.dataset.category, tab);
     });
+  });
+
+  const initialTab = tabs.find((tab) => tab.classList.contains('is-active')) ?? tabs[0];
+  requestAnimationFrame(() => {
+    if (initialTab) revealPillTab(root, initialTab);
   });
 
   return { setActive, tabs, indicator };

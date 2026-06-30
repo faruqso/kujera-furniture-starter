@@ -237,6 +237,7 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    scroll-padding-inline: 0.75rem;
   }
 
   .pill-tabs--center {
@@ -256,6 +257,7 @@
   .pill-tab {
     flex-shrink: 0;
     min-width: auto;
+    scroll-margin-inline: 0.75rem;
   }
 
   .pill-tab.is-active {

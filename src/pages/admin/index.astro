@@ -1,6 +1,12 @@
 ---
-// Decap CMS admin shell — explicit route so [...slug].astro does not shadow /admin
-export const prerender = true;
+import {
+  getTemplateForkUrl,
+  isDecapBrowseDemo,
+} from '../../lib/decap-public';
+
+export const prerender = false;
+
+const showBrowseBanner = isDecapBrowseDemo();
 ---
 
 <!doctype html>
@@ -10,15 +16,123 @@ export const prerender = true;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Kujera Content</title>
-    <!-- Relative config.yml resolves to /admin/config.yml (not site root) -->
+    <!-- config.yml is served dynamically at /admin/config.yml -->
     <base href="/admin/" />
     <script is:inline>
       if (window.location.pathname === '/admin') {
         window.location.replace('/admin/' + window.location.search + window.location.hash);
       }
     </script>
+    {showBrowseBanner && (
+      <style is:global>
+        .decap-demo-banner {
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.75rem 1.5rem;
+          padding: 0.75rem 1.25rem;
+          background: #fffbeb;
+          border-bottom: 1px solid #fcd34d;
+          color: #78350f;
+          font-family: system-ui, sans-serif;
+          font-size: 0.875rem;
+          line-height: 1.4;
+        }
+
+        .decap-demo-banner p {
+          margin: 0;
+          flex: 1 1 16rem;
+        }
+
+        .decap-demo-banner__actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .decap-demo-banner__btn {
+          display: inline-block;
+          padding: 0.4rem 0.85rem;
+          border-radius: 6px;
+          border: 1px solid #d97706;
+          color: #92400e;
+          text-decoration: none;
+          font-weight: 500;
+          white-space: nowrap;
+        }
+
+        .decap-demo-banner__btn:hover {
+          background: #fef3c7;
+        }
+
+        .decap-demo-banner__btn--primary {
+          background: #d97706;
+          border-color: #d97706;
+          color: #fff;
+        }
+
+        .decap-demo-banner__btn--primary:hover {
+          background: #b45309;
+        }
+      </style>
+    )}
   </head>
   <body>
+    {showBrowseBanner && (
+      <div class="decap-demo-banner">
+        <p>
+          <strong>Browse-only demo.</strong> You can explore all collections and entries. Saving changes
+          requires your own fork and GitHub CMS setup.
+        </p>
+        <div class="decap-demo-banner__actions">
+          <a class="decap-demo-banner__btn decap-demo-banner__btn--primary" href={getTemplateForkUrl()}>
+            Fork on GitHub
+          </a>
+          <a class="decap-demo-banner__btn" href="/admin/get-started">Set up Decap CMS</a>
+          <a class="decap-demo-banner__btn" href="/">Back to site</a>
+        </div>
+      </div>
+    )}
+    <script
+      is:inline
+      define:vars={{ browseDemoMode: showBrowseBanner }}
+    >
+      window.DECAP_BROWSE_DEMO = browseDemoMode;
+
+      function blockBrowseOnlySave() {
+        if (!window.DECAP_BROWSE_DEMO) return;
+        window.location.href = '/admin/get-started?reason=save';
+        return false;
+      }
+
+      document.addEventListener('decap-cms-init', function () {
+        if (!window.DECAP_BROWSE_DEMO || !window.CMS) return;
+
+        window.CMS.registerEventListener({
+          name: 'preSave',
+          handler: blockBrowseOnlySave,
+        });
+
+        window.CMS.registerEventListener({
+          name: 'prePublish',
+          handler: blockBrowseOnlySave,
+        });
+
+        window.CMS.registerEventListener({
+          name: 'preUnpublish',
+          handler: blockBrowseOnlySave,
+        });
+
+        window.CMS.registerEventListener({
+          name: 'preDelete',
+          handler: blockBrowseOnlySave,
+        });
+      });
+    </script>
     <script is:inline src="https://unpkg.com/decap-cms@^3.8.0/dist/decap-cms.js"></script>
   </body>
 </html>

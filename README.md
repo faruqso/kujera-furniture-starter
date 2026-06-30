@@ -6,7 +6,7 @@ An open-source furniture ecommerce starter built with **Astro**, **Decap CMS**, 
 
 ## Features
 
-- **CMS-driven pages** — edit content at `/admin` (local) or connect GitHub for production saves ([setup guide](docs/decap-setup.md))
+- **CMS-driven pages** — browse the admin demo at `/admin`; fork + setup to enable saves (see [Decap setup](docs/decap-setup.md))
 - **Product catalog** — collections, PLP, PDP, and a demo cart with localStorage
 - **Design system** — rebrand the entire site by editing `src/styles/tokens.css`
 - **Composable sections** — Hero, Why Choosing Us, Best Selling, Testimonials, About gallery, and more
@@ -23,7 +23,7 @@ npm run dev
 
 - **Site:** [http://localhost:4321](http://localhost:4321)
 - **Design system:** [http://localhost:4321/design-system](http://localhost:4321/design-system)
-- **CMS admin:** [http://localhost:4321/admin](http://localhost:4321/admin) — run `npm run cms` in a second terminal for local saves
+- **CMS admin:** [http://localhost:4321/admin](http://localhost:4321/admin) — see [Decap setup](docs/decap-setup.md) to connect your fork; run `npm run cms` locally for saves
 
 ## Rebrand in 2 files
 
@@ -68,10 +68,9 @@ src/
 │   ├── commerce/       # Shop, product detail, cart
 │   └── ui/             # Button, Badge, PillTabs, …
 ├── content/            # Pages, products, site settings
+├── cms/                # Decap collection schemas (config at /admin/config.yml)
 ├── styles/tokens.css   # Design tokens (rebrand here)
 └── pages/              # Routes + catch-all shop router
-public/
-└── admin/              # Decap CMS config
 docs/
 ├── customization.md
 └── decap-setup.md
